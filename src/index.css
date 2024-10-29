@@ -132,3 +132,41 @@
   scrollbar-width: thin; /* Sets the width of the scrollbar */
   scrollbar-color: #888 #f1f1f1; /* thumb color and track color */
 }
+/* Loader  */
+.loader {
+  border: 4px solid #F27B7D;
+  border-left-color: transparent;
+  border-radius: 50%;
+}
+
+.loader {
+  border: 4px solid #F27B7D;
+  border-left-color: transparent;
+  width: 36px;
+  height: 36px;
+}
+
+.loader {
+  border: 4px solid #F27B7D;
+  border-left-color: transparent;
+  width: 36px;
+  height: 36px;
+  animation: spin89345 1s linear infinite;
+}
+
+@keyframes spin89345 {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.loaderParent{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

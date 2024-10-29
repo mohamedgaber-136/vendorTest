@@ -9,18 +9,18 @@ import {
 } from "../ui/dialog";
 import FormikData from "../FormikData/FormikData";
 
-export function ModalBtn({ text, Fields, validationSchema, initialValues ,fieldWidth}) {
+export function ModalBtn({ text, Fields, validationSchema, initialValues, fieldWidth }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="bg-white hover:bg-white hover:-translate-y-1 transition flex  justify-center  gap-2 rounded-md items-center  basis-1/8  ">
-          <span className="text-fontColor ">{text}</span>
+        <Button className="bg-white hover:bg-white hover:-translate-y-1 transition flex justify-center gap-2 rounded-md items-center basis-1/8">
+          <span className="text-fontColor">{text}</span>
           <Plus className="text-primaryColor" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] bg-background">
+      <DialogContent className="sm:max-w-[425px] bg-background max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-start p-4 text-fontColor ">
+          <DialogTitle className="text-start p-4 text-fontColor">
             {text}
           </DialogTitle>
         </DialogHeader>
