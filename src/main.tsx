@@ -4,34 +4,37 @@ import "./index.css";
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
   Route,
   RouterProvider,
-  Navigate,
 } from "react-router-dom";
 import App from "./App.tsx";
-import { ApiProvider } from "@reduxjs/toolkit/query/react";
 import { PersistGate } from "redux-persist/integration/react";
-import { persistor } from "./Redux/Store";
-import { api } from "./Redux/api"; // Assuming api.ts is already typed
-import { useSelector } from "react-redux";
+import store, { persistor } from "./Redux/Store";
+import { Provider, useSelector } from "react-redux";
 import { RootState } from "./Redux/Store"; // Import your RootState type
-
+import { MainServices } from "./Pages/MainServices.tsx";
+import { ProfileSettings } from "./Pages/ProfileSettings.tsx";
+import { TechSupport } from "./Pages/TechSupport.tsx";
+import { SuperVisors } from "./Pages/SuperVisors.tsx";
+import { Login } from "./Pages/Login.tsx";
+import { SingleService } from "./Pages/SingleService.tsx";
+import { ServiceLayout } from "./Components/RootLayout/ServiceLayout.tsx";
+import { Service } from "./Pages/Service.tsx";
 // Define the props for PrivateRoute component
 interface PrivateRouteProps {
   element: JSX.Element; // Expecting a JSX element
   auth: string; // Name of the auth slice
   nav: string; // Navigation path if not authenticated
 }
-// this function used to Protect Some Routes 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, auth, nav }) => {
+
+// this function used to Protect Some Routes
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, nav }) => {
   // Access the auth slice from the Redux store
-  const { accessToken } = useSelector((state: RootState) => state[auth]);
-  
+  const { accessToken } = useSelector((state: RootState) => state.auth);
   const isAuthenticated = () => {
     return (
-      accessToken !== null &&
-      accessToken !== undefined &&
-      accessToken !== ""
+      accessToken !== null && accessToken !== undefined && accessToken !== ""
     );
   };
 
@@ -41,10 +44,24 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, auth, nav }) => {
 const RouterStructure: React.FC = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <>
-        <Route path="/" element={<App />} /> 
-        {/* Add your other routes here */}
-      </>
+      <Route>
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/"
+          element={<PrivateRoute nav="/login" element={<App />} />}
+        >
+          <Route index={true} element={<MainServices />} />
+          <Route path="/profileSetting" element={<ProfileSettings />} />
+          <Route path="/Support" element={<TechSupport />} />
+          <Route path="/Supervisors" element={<SuperVisors />} />
+        </Route>
+        <Route
+          path="/Services/:ServiceName"
+          element={<PrivateRoute nav="/login" element={<ServiceLayout />} />}
+        >
+          <Route index element={<Service />} />
+        </Route>
+      </Route>
     )
   );
 
@@ -54,10 +71,10 @@ const RouterStructure: React.FC = () => {
 // Create the root element
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ApiProvider api={api}>
+    <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <RouterStructure />
       </PersistGate>
-    </ApiProvider>
+    </Provider>
   </StrictMode>
 );

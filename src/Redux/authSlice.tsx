@@ -1,4 +1,3 @@
-// src/features/auth/authSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Define types for User and AuthState
@@ -16,7 +15,7 @@ interface AuthState {
 // Initial state with type
 const initialState: AuthState = {
   user: null,
-  accessToken: null,
+  accessToken: null, // Example token, can be set to null initially
 };
 
 const authSlice = createSlice({
@@ -24,7 +23,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setUser: (
-      state, 
+      state,
       action: PayloadAction<{ user: User; accessToken: string }>
     ) => {
       state.accessToken = action.payload.accessToken;

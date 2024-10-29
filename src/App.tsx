@@ -1,13 +1,11 @@
-import { Button } from './Components/ui/button'
+import { useEffect } from "react";
+import { RootLayout } from "./Components/RootLayout/RootLayout";
 
 function App() {
-
-  return (
-    <>
-        <Button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Click me</Button>
-
-    </>
-  )
+  useEffect(() => {
+    document.documentElement.setAttribute("dir", "rtl"); // Change to 'ltr' if needed
+  }, []);
+  return <RootLayout />;
 }
 
-export default App
+export default App;

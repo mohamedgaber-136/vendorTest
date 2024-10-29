@@ -1,7 +1,6 @@
-// src/Redux/Store.ts
-import { configureStore } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import { configureStore } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 import {
   FLUSH,
   REHYDRATE,
@@ -9,12 +8,12 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from 'redux-persist';
-import { authReducer } from './authSlice';
-import { api } from './api'; // Import the API slice
+} from "redux-persist";
+import { api } from "./api"; // Import your API slice here
+import { authReducer } from "./authSlice";
 
 const authPersistConfig = {
-  key: 'auth',
+  key: "auth",
   storage,
 };
 
@@ -32,6 +31,9 @@ const store = configureStore({
       },
     }).concat(api.middleware), // Add the API middleware
 });
+
+// Define the RootState type based on the store
+export type RootState = ReturnType<typeof store.getState>;
 
 export const persistor = persistStore(store);
 export default store;
