@@ -1,31 +1,27 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Define types for User and AuthState
-interface User {
+export interface User { // Explicitly exporting User type
   id: string;
   username: string;
-  // Add other fields if needed
 }
 
-interface AuthState {
-  user: User | null;
-  accessToken: string | null;
+export interface AuthState { // Explicitly exporting AuthState type
+  user: User | null; // The current authenticated user
+  accessToken: string | null; // Access token for authentication
 }
 
 // Initial state with type
 const initialState: AuthState = {
   user: null,
-  accessToken: null, // Example token, can be set to null initially
+  accessToken: null,
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setUser: (
-      state,
-      action: PayloadAction<{ user: User; accessToken: string }>
-    ) => {
+    setUser: (state, action: PayloadAction<{ user: User; accessToken: string }>) => {
       state.accessToken = action.payload.accessToken;
       state.user = action.payload.user;
     },
@@ -36,6 +32,9 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser, clearUser } = authSlice.actions;
+// Export actions to be used in components or middleware
+const { setUser, clearUser } = authSlice.actions;
+export { setUser, clearUser };
 
-export const authReducer = authSlice.reducer;
+// Export the reducer to be used in the store
+export default authSlice.reducer;

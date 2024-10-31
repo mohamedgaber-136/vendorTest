@@ -9,8 +9,22 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import { FieldType } from "../../types";
 
-const invoices = [
+// Define types for invoice and field data
+type Invoice = {
+  name: string;
+  password: string;
+  email: string;
+  roles: string;
+  service: string;
+  startedAt: string;
+  active: boolean;
+};
+
+
+// Sample invoices data
+const invoices: Invoice[] = [
   {
     name: "Full Name 1",
     password: "كلمه السر",
@@ -40,7 +54,9 @@ const invoices = [
   },
   // Add more entries as needed...
 ];
-const Fields = [
+
+// Define fields for the form
+const Fields: FieldType[] = [
   {
     type: "text",
     placeHolder: "اسم المشرف",
@@ -68,6 +84,7 @@ const Fields = [
   },
 ];
 
+// Initial values for the form
 const initialValues = {
   name: "",
   email: "",
@@ -76,7 +93,8 @@ const initialValues = {
   job: "",
 };
 
-const validationSchema = Yup.object({
+// Validation schema using Yup
+const validationSchema = Yup.object().shape({
   name: Yup.string()
     .min(3, "Name should be at least 3 characters")
     .required("اسم المشرف مطلوب"),
@@ -89,7 +107,12 @@ const validationSchema = Yup.object({
   service: Yup.string().required("الخدمه مطلوبه"),
   job: Yup.string().required("اسم الوظيفه مطلوب"),
 });
-const createHeadCells = (data) => {
+
+// Define keys for invoice
+type InvoiceKeys = keyof Invoice; // This will be 'name' | 'password' | 'email' | 'roles' | 'service' | 'startedAt' | 'active'
+
+// Function to create header cells for the table
+const createHeadCells = (data: Invoice[]) => {
   const keys = Object.keys(data[0] || {});
   return keys.map((key) => ({
     id: key,
@@ -98,14 +121,14 @@ const createHeadCells = (data) => {
 };
 
 const headCells = createHeadCells(invoices);
-const checkKeys = (key, row) => {
-  if (key == "active") {
+
+// Function to render table cells based on the keys
+const checkKeys = (key: InvoiceKeys, row: Invoice) => {
+  if (key === "active") {
     return (
       <TableCell
         key={key}
-        className={`font-medium  px-3 text-center py-5  ${
-          row[key] ? "text-green-600" : "text-red-600 "
-        }`}
+        className={`font-medium px-3 text-center py-5 ${row[key] ? "text-green-600" : "text-red-600"}`}
         style={{ width: "150px" }}
       >
         {row[key] ? "نشطه" : "غير نشطه"}
@@ -115,7 +138,7 @@ const checkKeys = (key, row) => {
     return (
       <TableCell
         key={key}
-        className="font-medium  px-3 text-right py-5"
+        className="font-medium px-3 text-right py-5"
         style={{ width: "150px" }}
       >
         {row[key]}
@@ -123,17 +146,18 @@ const checkKeys = (key, row) => {
     );
   }
 };
+
+// Main Table component
 export function TableComp() {
   return (
     <>
       <Table className="bg-white mb-4 rounded-xl border-0">
-        {/* Set table background color to white */}
         <TableHeader className="rounded-3xl">
           <TableRow>
             {headCells.map((item) => (
               <TableHead
                 key={item.id}
-                className="text-right  text-fontColor px-3  font-semibold"
+                className="text-right text-fontColor px-3 font-semibold"
                 style={{ width: "150px" }}
               >
                 {item.label}
@@ -144,13 +168,12 @@ export function TableComp() {
       </Table>
 
       <Table className="bg-white">
-        {/* Set table background color to white */}
         <TableBody>
           {invoices.map((row, index) => (
             <TableRow key={`row-${index}`} className="even:bg-gray-100">
-              {Object.keys(row).map((key) => checkKeys(key, row))}
+              {Object.keys(row).map((key) => checkKeys(key as InvoiceKeys, row))}
               <TableCell
-                className="text-right "
+                className="text-right"
                 style={{ width: "50px" }}
               >
                 <MoreVertical className="w-5 h-5 text-gray-600 bg-transparent cursor-pointer" />

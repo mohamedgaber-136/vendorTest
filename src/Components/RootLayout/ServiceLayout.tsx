@@ -2,16 +2,14 @@ import { Outlet } from "react-router-dom";
 import { AdsCard } from "../AdsCard/AdsCard";
 import Navbar from "../Navbar/Navbar";
 import { SideBar } from "../SideBar/SideBar";
-import {
-  Calendar,
-  Home,
-  Inbox,
-  Search,
-} from "lucide-react";
+import { Calendar, Home, Inbox, Search } from "lucide-react";
+import { Item } from "../../types";
 
-export const ServiceLayout = () => {
-  // Menu items.
-  const items = [
+
+// Define the type for the component
+export const ServiceLayout: React.FC = () => {
+  // Menu items
+  const items: Item[] = [
     {
       title: " الاحصائيات",
       url: "/Services",
@@ -29,13 +27,13 @@ export const ServiceLayout = () => {
       icon: Calendar,
       collapse: true,
       subItems: [
-        { title: " الخدمه الاضافيه", url: "/additional-service" },
-        { title: " العروض والباقات", url: "/offers-and-packages" },
-        { title: " المنشورات", url: "/posts" },
-        { title: " القصص", url: "/stories" },
-        { title: " المنتجات", url: "/products" },
-        { title: " الفروع", url: "/branches" },
-        { title: " لينكات خارجيه", url: "/external-links" },
+        { title: " الخدمه الاضافيه", url: "/additional-service", icon: Inbox,  }, // Add icon and collapse
+        { title: " العروض والباقات", url: "/offers-and-packages", icon: Inbox,  }, // Add icon and collapse
+        { title: " المنشورات", url: "/posts", icon: Inbox,  }, // Add icon and collapse
+        { title: " القصص", url: "/stories", icon: Inbox,  }, // Add icon and collapse
+        { title: " المنتجات", url: "/products", icon: Inbox,  }, // Add icon and collapse
+        { title: " الفروع", url: "/branches", icon: Inbox,  }, // Add icon and collapse
+        { title: " لينكات خارجيه", url: "/external-links", icon: Inbox,  }, // Add icon and collapse
       ],
     },
     {
@@ -43,8 +41,8 @@ export const ServiceLayout = () => {
       icon: Calendar,
       collapse: true,
       subItems: [
-        { title: "a- اعلاناتي", url: "/my-ads" },
-        { title: "b- ترويج", url: "/promotion" },
+        { title: "a- اعلاناتي", url: "/my-ads", icon: Inbox,  }, // Add icon and collapse
+        { title: "b- ترويج", url: "/promotion", icon: Inbox,  }, // Add icon and collapse
       ],
     },
     {

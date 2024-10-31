@@ -1,8 +1,9 @@
-import FormikData from "@/Components/FormikData/FormikData";
 import * as Yup from "yup";
+import FormikData from "../Components/FormikData/FormikData";
+import { FieldType } from "../types";
 export const ProfileSettings = () => {
    // Form Data For Profile Settings
-  const Fields = [
+  const Fields :  FieldType[] = [
     {
       type: "text",
       placeHolder: "الاسم الاول",
@@ -67,7 +68,7 @@ export const ProfileSettings = () => {
       .oneOf([Yup.ref("newPassword")], "كلمة المرور غير متطابقة")
       .required("تأكيد كلمه المرور مطلوب"),
   });
-  const passwordFFields = [
+  const passwordFFields  :  FieldType[]  = [
     {
       type: "password",
       placeHolder: "كلمه المرور القديمه ",

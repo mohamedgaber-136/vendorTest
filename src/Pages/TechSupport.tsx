@@ -1,7 +1,8 @@
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Input } from "../Components/ui/input";
+import { Button } from "../Components/ui/button";
+
 
 export const TechSupport = () => {
   // Tech Support Form 

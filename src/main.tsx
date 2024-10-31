@@ -18,20 +18,18 @@ import { ProfileSettings } from "./Pages/ProfileSettings.tsx";
 import { TechSupport } from "./Pages/TechSupport.tsx";
 import { SuperVisors } from "./Pages/SuperVisors.tsx";
 import { Login } from "./Pages/Login.tsx";
-import { SingleService } from "./Pages/SingleService.tsx";
 import { ServiceLayout } from "./Components/RootLayout/ServiceLayout.tsx";
 import { Service } from "./Pages/Service.tsx";
 // Define the props for PrivateRoute component
 interface PrivateRouteProps {
   element: JSX.Element; // Expecting a JSX element
-  auth: string; // Name of the auth slice
   nav: string; // Navigation path if not authenticated
 }
 
-// this function used to Protect Some Routes
+// this function is used to Protect Some Routes
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, nav }) => {
   // Access the auth slice from the Redux store
-  const { accessToken } = useSelector((state: RootState) => state.auth);
+  const { accessToken } = useSelector((state: RootState) => state.auth); // Use the auth prop to access the correct slice
   const isAuthenticated = () => {
     return (
       accessToken !== null && accessToken !== undefined && accessToken !== ""
@@ -48,16 +46,16 @@ const RouterStructure: React.FC = () => {
         <Route path="/login" element={<Login />} />
         <Route
           path="/"
-          element={<PrivateRoute nav="/login" element={<App />} />}
+          element={<PrivateRoute nav="/login"  element={<App />} />} // Add auth prop here
         >
-          <Route index={true} element={<MainServices />} />
+          <Route index element={<MainServices />} />
           <Route path="/profileSetting" element={<ProfileSettings />} />
           <Route path="/Support" element={<TechSupport />} />
           <Route path="/Supervisors" element={<SuperVisors />} />
         </Route>
         <Route
           path="/Services/:ServiceName"
-          element={<PrivateRoute nav="/login" element={<ServiceLayout />} />}
+          element={<PrivateRoute nav="/login" element={<ServiceLayout />} />} // Add auth prop here
         >
           <Route index element={<Service />} />
         </Route>

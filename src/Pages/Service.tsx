@@ -1,4 +1,4 @@
-import { CharInfo } from '@/Components/ChartData/CharInfo'
+import { CharInfo } from "../Components/ChartData/CharInfo";
 
 export const Service = () => {
     const chartData = [

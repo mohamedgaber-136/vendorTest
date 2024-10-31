@@ -1,22 +1,60 @@
-import { Loader } from "@/Components/Loader/Loader";
-import { ModalBtn } from "@/Components/ModalBtn/ModalBtn";
-import { Services } from "@/Components/Services/Services";
-import { useGetItemsQuery, useGetVendorServicesQuery } from "@/Redux/api";
 import { useSelector } from "react-redux";
 import * as Yup from "yup";
+import { useGetItemsQuery, useGetVendorServicesQuery } from "../Redux/api";
+import { Loader } from "../Components/Loader/Loader";
+import { Services } from "../Components/Services/Services";
+import { ModalBtn } from "../Components/ModalBtn/ModalBtn";
+import { FieldType } from "../types";
+import { RootState } from "../Redux/Store";
 
-export const MainServices = () => {
+// Define the structure for the vendor service and item
+type VendorService = {
+  id: string;
+  service: string;
+  is_active: boolean;
+};
+
+type ItemService = {
+  id: string;
+  name: string;
+  data:any
+};
+
+
+
+// Define the initial values for the form
+type InitialValues = {
+  commercial_name: string;
+  service_id: string;
+  province: string;
+  city_id: string;
+  mobile: string;
+  whatsapp: string;
+  description: string;
+  images: File | null;
+  cover: File | null;
+  price: string;
+  vendor_type: string;
+  price_type: string;
+};
+
+export const MainServices: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.auth);
-  const { data: vendorServices, error: vendorError, isLoading: vendorLoading } = useGetVendorServicesQuery(user.id); // use actual vendorId if dynamic
+  const vendorId = user ? user.id : null;
+
+// Fetch vendor services and items
+const { data: vendorServices, error: vendorError, isLoading: vendorLoading } = useGetVendorServicesQuery(vendorId ?? "", {
+  skip: !vendorId, // Skip the query if vendorId is undefined
+});
   const { data: item, error: itemError, isLoading: itemLoading } = useGetItemsQuery('services');
 
-  // Extract options from item.data if it exists
-  const serviceOptions = item?.data ? item.data.map(service => ({
-    value: service.id, // Assuming each service has an 'id' field
-    label: service.name, // Assuming each service has a 'name' field
+  // Check if item is defined and extract service options
+  const serviceOptions = item ? item.data.map((service: ItemService) => ({
+    value: service.id,
+    label: service.name,
   })) : [];
 
-  const Fields = [
+  const Fields: FieldType[] = [
     {
       type: "text",
       placeHolder: "الاسم التجاري",
@@ -26,7 +64,7 @@ export const MainServices = () => {
       type: "select",
       placeHolder: "نوع الخدمة",
       name: "service_id",
-      options: serviceOptions, // Set options here
+      options: serviceOptions,
     },
     {
       type: "text",
@@ -70,20 +108,23 @@ export const MainServices = () => {
     },
     {
       type: "radio",
-      label: " هل أنت",
+      placeHolder: " هل أنت",
       name: "vendor_type",
-      options: [{
-        label: "فرد",
-        value: "1"
-      }, {
-        label: "شركة",
-        value: "2"
-      }],
+      options: [
+        {
+          label: "فرد",
+          value: "1",
+        },
+        {
+          label: "شركة",
+          value: "2",
+        },
+      ],
     },
   ];
 
   // Set up initial values for each field
-  const initialValues = {
+  const initialValues: InitialValues = {
     commercial_name: "",
     service_id: "",
     province: "",
@@ -93,13 +134,13 @@ export const MainServices = () => {
     description: "",
     images: null,
     cover: null,
-    price: "", // initially empty, user chooses one option
+    price: "",
     vendor_type: "",
-    price_type:"1" // initially empty, user chooses one option
+    price_type: "1",
   };
 
   // Create validation schema using Yup
-  const validationSchema = Yup.object({
+  const validationSchema = Yup.object().shape({
     commercial_name: Yup.string()
       .min(3, "يجب أن يحتوي الاسم التجاري على 3 أحرف على الأقل")
       .required("الاسم التجاري مطلوب"),
@@ -122,17 +163,18 @@ export const MainServices = () => {
       .oneOf(["2", "1"], "يرجى اختيار نوع المنشأ")
       .required("نوع المنشأ مطلوب"),
   });
+ 
 
   return (
     <div className="flex flex-wrap gap-10 justify-center items-center">
       {/* Display All Services */}
       {(vendorLoading || itemLoading) && <Loader />}
-      {(vendorError || itemError) && <p>Failed to load services</p>}
-      {vendorServices &&
-        vendorServices.data.map((service: any, index: number) => (
-          <Services key={index} data={service} />
-        ))}
-      {/* Btn For Modal  */}
+      {(vendorError || itemError) && <p>فشل في تحميل الخدمات</p>}
+      {vendorServices && vendorServices.data.map((service: VendorService, index: number) => (
+        // console.log({ service: { data: service }, is_active: service.is_active })
+  <Services key={index} data={{ service: { data: service }, is_active: service.is_active }} />
+))}
+      {/* Btn For Modal */}
       <ModalBtn
         text={"اضافه خدمه رئيسيه"}
         Fields={Fields}

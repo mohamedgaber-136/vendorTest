@@ -1,9 +1,10 @@
 // src/Redux/api.ts
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { RootState } from '@/store'; // Adjust this import based on your store's location
-import { ItemType, AddItemResponse } from './types';
+import { RootState } from './Store';
+import { AddItemResponse, ItemType } from '../types';
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
@@ -13,6 +14,7 @@ export const api = createApi({
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
+      // No need to set Content-Type for FormData
       return headers;
     },
   }),
@@ -21,16 +23,25 @@ export const api = createApi({
       query: (itemId) => `${itemId}`,
     }),
     addItem: builder.mutation<AddItemResponse, { endpoint: string; newItem: Partial<ItemType> }>({
-      query: ({ endpoint, newItem }) => ({
-        url: endpoint,
-        method: 'POST',
-        body: newItem,
-      }),
+      query: ({ endpoint, newItem }) => {
+        const formData = new FormData();
+        // Append your fields to the FormData object
+        Object.keys(newItem).forEach((key) => {
+          // Ensure that the key is a valid key of ItemType
+          formData.append(key as keyof ItemType, newItem[key as keyof ItemType] as any);
+        });
+        
+        return {
+          url: endpoint,
+          method: 'POST',
+          body: formData, // Set body as FormData
+        };
+      },
     }),
     getVendorServices: builder.query<any, string>({
       query: (vendorId) => `service-vendors?vendorId=${vendorId}`,
     }),
-    login: builder.mutation<{ token: string; user: any }, { email: string; password: string }>({
+    login: builder.mutation<{ token: string; user: any,status:number,data:any }, { email: string; password: string }>({
       query: (credentials) => ({
         url: 'login',
         method: 'POST',

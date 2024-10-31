@@ -8,8 +8,28 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import FormikData from "../FormikData/FormikData";
+import * as Yup from "yup";
+import { FieldType } from "../../types";
 
-export function ModalBtn({ text, Fields, validationSchema, initialValues, fieldWidth }) {
+// Define the FieldType type for form fields
+
+
+// Define the Props type for ModalBtn component
+interface ModalBtnProps {
+  text: string;
+  Fields: FieldType[];
+  initialValues: { [key: string]: string | File | null };
+  validationSchema: Yup.ObjectSchema<any>;
+  fieldWidth?: boolean;
+}
+
+export const ModalBtn: React.FC<ModalBtnProps> = ({
+  text,
+  Fields,
+  validationSchema,
+  initialValues,
+  fieldWidth,
+}) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -34,4 +54,4 @@ export function ModalBtn({ text, Fields, validationSchema, initialValues, fieldW
       </DialogContent>
     </Dialog>
   );
-}
+};

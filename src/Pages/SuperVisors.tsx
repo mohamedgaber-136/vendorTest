@@ -1,4 +1,4 @@
-import { TableComp } from "@/Components/TableComp/TableComp";
+import { TableComp } from "../Components/TableComp/TableComp";
 
 export const SuperVisors = () => {
   return (

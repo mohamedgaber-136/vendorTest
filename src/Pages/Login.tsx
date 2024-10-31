@@ -1,18 +1,26 @@
 // src/components/Login.tsx
-import { NewDataBtn } from "@/Components/NewDataBtn/NewDataBtn";
-import { Input } from "@/components/ui/input";
-import { setUser } from "@/Redux/authSlice";
+
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { useLoginMutation } from "@/Redux/api";
+import { useLoginMutation } from "../Redux/api";
+import { setUser } from "../Redux/authSlice";
+import { Input } from "../Components/ui/input";
+import { NewDataBtn } from "../Components/NewDataBtn/NewDataBtn";
+import axios from "axios";
 
-export const Login = () => {
+// Define the shape of the form values
+interface LoginFormValues {
+  email: string;
+  password: string;
+}
+
+export const Login: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [checkLogin, setCheckLogin] = useState(true);
+  const [checkLogin, setCheckLogin] = useState<boolean>(true);
 
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -24,14 +32,13 @@ export const Login = () => {
   // Use the login mutation
   const [login, { isLoading }] = useLoginMutation();
 
-  const handleLogin = async (values: { email: string; password: string }) => {
+  const handleLogin = async (values: LoginFormValues) => {
     try {
-      const response = await login(values).unwrap(); // Unwrap the response for the actual data
-
-      // Check if response structure is correct
-      if (response.data) {
-        dispatch(setUser({ 
-          accessToken: response.data.token, // Adjust based on your actual response structure
+      const response = await login(values).unwrap();
+      // Check if the response structure includes the expected fields
+      if (response.status ===200) {
+        dispatch(setUser({
+          accessToken: response.data.token,
           user: response.data,
         }));
         navigate('/');
@@ -44,12 +51,16 @@ export const Login = () => {
     } catch (error) {
       setCheckLogin(false);
       console.error('Login failed:', error);
-      // Optional: log specific error details
-      if ('data' in error) {
-        console.error('Error details:', error.data);
+  
+      // Check if the error is an AxiosError to access error data safely
+      if (axios.isAxiosError(error)) {
+        console.error('Error details:', error.response?.data);
+      } else {
+        console.error('An unexpected error occurred.');
       }
     }
   };
+  
 
   return (
     <div className="bg-sky-100 flex justify-center items-center h-screen">
