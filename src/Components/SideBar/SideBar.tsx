@@ -32,11 +32,15 @@ export function SideBar({ items }: SideBarProps) {
       <Sidebar className="h-full bottom-0 absolute right-0 bg-sidebar-default max-md:bg-transparent">
         <SidebarContent>
           <SidebarGroup className="gap-4">
-            <SidebarGroupLabel className="text-fontColor flex justify-between">
+            <SidebarGroupLabel className="text-fontColor gap-2 flex flex-row-reverse justify-between">
+              <div className="flex flex-col flex-1">
+
+              <p className="text-xl font-semibold"> {user?.name_ar} </p>
+              <p className="text-primaryColor">الخدمه الرئيسيه</p>
+              </div>
               <Avatar>
                 <AvatarImage src="https://github.com/shadcn.png" />
               </Avatar>
-              <p className="text-xl font-semibold"> {user?.name_ar} </p>
             </SidebarGroupLabel>
             <SidebarMenu className="gap-4">
               {items.map((item, index) => (
@@ -65,16 +69,11 @@ export function SideBar({ items }: SideBarProps) {
                         }}
                       >
                         <div className="flex gap-2 items-center">
-                          <item.icon
-                            className={`${activeItem === item.url
-                              ? "text-white"
-                              : "text-fontColor"
-                            }`}
-                          />
+                       
                           <span
-                            className={`${activeItem === item.url
-                              ? "text-white"
-                              : "text-fontColor"
+                            className={` font-semibold text-lg ${activeItem === item.url
+                              ? "text-white "
+                              : "text-black"
                             }`}
                           >
                             {item.title}
@@ -94,7 +93,6 @@ export function SideBar({ items }: SideBarProps) {
                             className="flex items-center space-x-2 font-semibold"
                             onClick={() => setActiveItem(subItem.url || "/")}
                           >
-                            <subItem.icon className="text-fontColor" />
                             <span className="text-fontColor">{subItem.title}</span>
                           </Link>
                         </SidebarMenuItem>

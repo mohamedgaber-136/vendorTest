@@ -182,7 +182,7 @@ export function TableComp() {
           ))}
         </TableBody>
       </Table>
-      <div className="flex justify-end my-5">
+      {/* <div className="flex justify-end my-5">
         <ModalBtn
           text="اضافه مشرف"
           Fields={Fields}
@@ -190,7 +190,7 @@ export function TableComp() {
           validationSchema={validationSchema}
           fieldWidth={true}
         />
-      </div>
+      </div> */}
     </>
   );
 }

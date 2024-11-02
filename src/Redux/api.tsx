@@ -14,7 +14,7 @@ export const api = createApi({
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
-      // No need to set Content-Type for FormData
+      // No need to set Content-Type for FormData, but ensure JSON content-type is set when required
       return headers;
     },
   }),
@@ -24,24 +24,22 @@ export const api = createApi({
     }),
     addItem: builder.mutation<AddItemResponse, { endpoint: string; newItem: Partial<ItemType> }>({
       query: ({ endpoint, newItem }) => {
-        const formData = new FormData();
-        // Append your fields to the FormData object
-        Object.keys(newItem).forEach((key) => {
-          // Ensure that the key is a valid key of ItemType
-          formData.append(key as keyof ItemType, newItem[key as keyof ItemType] as any);
-        });
-        
         return {
           url: endpoint,
           method: 'POST',
-          body: formData, // Set body as FormData
+          body: newItem, // Directly set newItem without stringifying
+          // The content type for JSON data will be handled by the fetchBaseQuery
         };
       },
     }),
     getVendorServices: builder.query<any, string>({
       query: (vendorId) => `service-vendors?vendorId=${vendorId}`,
     }),
-    login: builder.mutation<{ token: string; user: any,status:number,data:any }, { email: string; password: string }>({
+    getCities: builder.query<any, string>({
+     
+      query: (id) => `cities?governorateId=${id}`,
+    }),
+    login: builder.mutation<{ token: string; user: any; status: number; data: any }, { email: string; password: string }>({
       query: (credentials) => ({
         url: 'login',
         method: 'POST',
@@ -51,4 +49,4 @@ export const api = createApi({
   }),
 });
 
-export const { useGetItemsQuery, useAddItemMutation, useGetVendorServicesQuery, useLoginMutation } = api;
+export const { useGetItemsQuery, useAddItemMutation, useGetVendorServicesQuery,useGetCitiesQuery , useLoginMutation } = api;

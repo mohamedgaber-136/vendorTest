@@ -15,9 +15,7 @@ import {
 import { Loader } from "../Loader/Loader";
 import { useAddItemMutation } from "../../Redux/api";
 import { FieldType } from "../../types";
-
-// Define the type for form fields
-
+import axios from "axios";
 
 // Define the type for form initial values
 type InitialValues = {
@@ -31,6 +29,7 @@ interface FormikDataProps {
   validationSchema: Yup.ObjectSchema<any>;
   btnText: string;
   fieldWidth?: boolean;
+  endpoint: string;
 }
 
 const FormikData: React.FC<FormikDataProps> = ({
@@ -39,12 +38,58 @@ const FormikData: React.FC<FormikDataProps> = ({
   validationSchema,
   btnText,
   fieldWidth,
+  endpoint,
 }) => {
   const [addItem, { isLoading, isError, isSuccess }] = useAddItemMutation();
 
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>, itemName: string, formik: any) => {
+    const file = event.currentTarget.files?.[0]; // Get the first selected file
+    const maxFileSize = 10 * 1024 * 1024; // 10 MB
+
+    // Check if file exists
+    if (!file) {
+      setFileName(null);
+      formik.setFieldValue(itemName, null); // Reset Formik field value
+      return; // Exit if no file is selected
+    }
+
+    if (file.size > maxFileSize) {
+      console.error("File size exceeds the maximum limit of 10 MB.");
+      setFileName(null);
+      formik.setFieldValue(itemName, null); // Reset Formik field value
+      return; // Exit the function if the file is too large
+    }
+
+    try {
+      const endpoint = 'https://testing.gawazy.com/api/v1/web/files';
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('type', 'service_vendor_images');
+
+      const response = await axios.post(endpoint, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "Authorization": `Bearer ${accessToken}`,
+        },
+      });
+      setFileName(file.name);
+
+      // Set the field value on successful upload (only the ID)
+      const newValue = [{ "id": response.data.data.id }];
+      if (itemName === 'image') {
+        formik.setFieldValue('images', newValue);
+      } else {
+        formik.setFieldValue('cover', newValue);
+      }
+    } catch (error) {
+      console.error("Error sending data:", error);
+      // Optionally set an error message in Formik
+      formik.setFieldError(itemName, "File upload failed.");
+    }
+  };
+
   const onSubmit = async (values: InitialValues, { setSubmitting }: FormikHelpers<InitialValues>) => {
     try {
-      const endpoint = "service-vendors";
       const newItem = { ...values };
       await addItem({ endpoint, newItem }).unwrap();
       console.log("Item added successfully");
@@ -53,6 +98,7 @@ const FormikData: React.FC<FormikDataProps> = ({
     } finally {
       setSubmitting(false);
     }
+    console.log(values)
   };
 
   return (
@@ -65,88 +111,74 @@ const FormikData: React.FC<FormikDataProps> = ({
         <Form className="flex flex-col gap-3">
           {Fields.map((item, index) => (
             <Fragment key={index}>
+              <Label htmlFor={item.name}>{item.label}</Label>
               {item.type === "radio" ? (
-                <Fragment>
-                  <Label>{item.label}</Label>
-                  <div role="group" aria-labelledby={item.name} className="flex">
-                    {item.options?.map((option, idx) => (
-                      <label key={idx} className="flex items-center gap-2">
-                        <Field
-                          type="radio"
-                          name={item.name}
-                          value={option.value}
-                          className="mr-2"
-                        />
-                        {option.label}
-                      </label>
-                    ))}
-                  </div>
-                  <ErrorMessage name={item.name} component="div" className="text-red-500 text-sm" />
-                </Fragment>
-              ) : item.type === "file" ? (
-                <>
-                  <Label htmlFor={item.name}>{item.label}</Label>
-                  <Field name={item.name}>
-                    {({ field }: FieldProps) => (
-                      <Input
-                        {...field}
-                        type="file"
-                        id={item.name}
-                        className={`${fieldWidth ? "w-full" : "md:w-1/4"} sm:w-full bg-white`}
-                        isInvalid={!!formik.errors[item.name] && formik.touched[item.name]}
-                      />
-                    )}
-                  </Field>
-                  <ErrorMessage name={item.name} component="div" className="text-red-500 text-sm" />
-                </>
-              ) : item.type === "select" ? (
-                <>
-                  <Label htmlFor={item.name}>{item.label}</Label>
-                  <Field name={item.name}>
-                    {({ field, form }: FieldProps) => (
-                      <Select
-                        value={field.value}
-                        onValueChange={(value) => form.setFieldValue(item.name, value)}
-                      >
-                        <SelectTrigger className={`${fieldWidth ? "w-full" : "md:w-1/2"} sm:w-full bg-white`} dir="rtl">
-                          <SelectValue placeholder={item.placeHolder || "Select an option"} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            {item.options?.map((option, idx) => (
-                              <SelectItem key={idx} value={option.value}>
-                                {option.label}
-                              </SelectItem>
-                            ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    )}
-                  </Field>
-                  <ErrorMessage name={item.name} component="div" className="text-red-500 text-sm" />
-                </>
-              ) : (
-                <div>
-                  <Field name={item.name}>
-                    {({ field }: FieldProps) => (
-                      <Input
-                        {...field}
-                        type="text"
-                        id={item.name}
-                        className={`${fieldWidth ? "w-full" : "md:w-1/2"} sm:w-full bg-white`}
-                        placeholder={item.placeHolder}
-                        isInvalid={!!formik.errors[item.name] && formik.touched[item.name]}
-                      />
-                    )}
-                  </Field>
-                  <ErrorMessage name={item.name} component="div" className="text-red-500 text-sm" />
+                <div role="group" aria-labelledby={item.name} className="flex">
+                  {item.options?.map((option, idx) => (
+                    <label key={idx} className="flex items-center gap-2">
+                      <Field type="radio" name={item.name} value={option.value} />
+                      {option.label}
+                    </label>
+                  ))}
                 </div>
+              ) : item.type === "file" ? (
+                <Field name={item.name}>
+                  {({ field }: FieldProps) => (
+                    <Input
+                      {...field}
+                      type="file"
+                      id={item.name}
+                      className={`${fieldWidth ? "w-full" : "md:w-1/4"} sm:w-full bg-white`}
+                      isInvalid={!!formik.errors[item.name] && formik.touched[item.name]}
+                      onChange={(event) => {handleFileChange(event, item.name, formik)
+                       
+                      }} // Pass formik to handleFileChange
+                    />
+                  )}
+                </Field>
+              ) : item.type === "select" ? (
+                <Field name={item.name}>
+                  {({ field, form }: FieldProps) => (
+                    <Select
+                      value={field.value}
+                      onValueChange={(value) => {
+                        form.setFieldValue(item.name, value);
+                       
+                      }}                    >
+                      <SelectTrigger className={`${fieldWidth ? "w-full" : "md:w-1/2"} sm:w-full bg-white`} dir="rtl">
+                        <SelectValue placeholder={item.placeHolder || "Select an option"} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          {item.options?.map((option, idx) => (
+                            <SelectItem key={idx} value={option.value}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  )}
+                </Field>
+              ) : (
+                <Field name={item.name}>
+                  {({ field }: FieldProps) => (
+                    <Input
+                      {...field}
+                      type={item.type}
+                      id={item.name}
+                      className={`${fieldWidth ? "w-full" : "md:w-1/2"} sm:w-full bg-white`}
+                      placeholder={item.placeHolder}
+                      isInvalid={!!formik.errors[item.name] && formik.touched[item.name]}
+                    />
+                  )}
+                </Field>
               )}
+              <ErrorMessage name={item.name} component="div" className="text-red-500 text-sm" />
             </Fragment>
           ))}
           <Button
             type="submit"
-            disabled={!formik.isValid || formik.isSubmitting}
             className={`${fieldWidth ? "w-full" : "md:w-1/4"} sm:w-full bg-primaryColor text-white hover:white`}
           >
             {btnText}

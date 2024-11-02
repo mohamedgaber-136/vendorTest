@@ -2,7 +2,6 @@ import { Outlet } from "react-router-dom";
 import { AdsCard } from "../AdsCard/AdsCard";
 import Navbar from "../Navbar/Navbar";
 import { SideBar } from "../SideBar/SideBar";
-import { Calendar, Home, Inbox, Search } from "lucide-react";
 import { Item } from "../../types";
 
 
@@ -13,60 +12,52 @@ export const ServiceLayout: React.FC = () => {
     {
       title: " الاحصائيات",
       url: "/Services",
-      icon: Home,
       collapse: false,
     },
     {
       title: " الخدمه الرئيسيه",
       url: "/main-service",
-      icon: Inbox,
       collapse: false,
     },
     {
       title: " الصفحه الرئيسيه",
-      icon: Calendar,
       collapse: true,
       subItems: [
-        { title: " الخدمه الاضافيه", url: "/additional-service", icon: Inbox,  }, // Add icon and collapse
-        { title: " العروض والباقات", url: "/offers-and-packages", icon: Inbox,  }, // Add icon and collapse
-        { title: " المنشورات", url: "/posts", icon: Inbox,  }, // Add icon and collapse
-        { title: " القصص", url: "/stories", icon: Inbox,  }, // Add icon and collapse
-        { title: " المنتجات", url: "/products", icon: Inbox,  }, // Add icon and collapse
-        { title: " الفروع", url: "/branches", icon: Inbox,  }, // Add icon and collapse
-        { title: " لينكات خارجيه", url: "/external-links", icon: Inbox,  }, // Add icon and collapse
+        { title: " الخدمه الاضافيه", url: "/additional-service",  }, // Add icon and collapse
+        { title: " العروض والباقات", url: "/offers-and-packages",  }, // Add icon and collapse
+        { title: " المنشورات", url: "/posts",  }, // Add icon and collapse
+        { title: " القصص", url: "/stories",  }, // Add icon and collapse
+        { title: " المنتجات", url: "/products",  }, // Add icon and collapse
+        { title: " الفروع", url: "/branches",  }, // Add icon and collapse
+        { title: " لينكات خارجيه", url: "/external-links",  }, // Add icon and collapse
       ],
     },
     {
       title: "مدير الاعلانات",
-      icon: Calendar,
       collapse: true,
       subItems: [
-        { title: "a- اعلاناتي", url: "/my-ads", icon: Inbox,  }, // Add icon and collapse
-        { title: "b- ترويج", url: "/promotion", icon: Inbox,  }, // Add icon and collapse
+        { title: "a- اعلاناتي", url: "/my-ads",  }, // Add icon and collapse
+        { title: "b- ترويج", url: "/promotion",  }, // Add icon and collapse
       ],
     },
     {
       title: " باقات جوازي",
       url: "/my-packages",
-      icon: Inbox,
       collapse: false,
     },
     {
       title: " المفضله",
       url: "/favorites",
-      icon: Inbox,
       collapse: false,
     },
     {
       title: " اشعاراتي",
       url: "/notifications",
-      icon: Inbox,
       collapse: false,
     },
     {
       title: " الدعم الفني",
       url: "/support",
-      icon: Search,
       collapse: false,
     },
   ];

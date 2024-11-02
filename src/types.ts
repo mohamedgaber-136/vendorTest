@@ -2,7 +2,7 @@
 
 export type FieldType = {
     name: string;
-    type: "text" | "email" | "password" | "radio" | "file" | "select"|"textarea"; 
+    type: "text" | "email" | "password" | "radio" | "file" | "select"|"textarea" |"hidden"; 
     placeHolder?: string;
     label?: string;
     options?: { value: string; label: string }[]; // For dropdown select options
@@ -33,13 +33,11 @@ export type AddItemResponse = {
 export interface SubItem {
     title: string;
     url: string; // Ensure URL is here as it's used in Sidebar
-    icon: React.ElementType; // Ensure the icon property is included here
 }
 
 export interface Item {
     title: string;
     url?: string; // Make this optional for parent items without links
-    icon: React.ElementType; // Icon component
     collapse?: boolean; // Optional collapse property
     subItems?: SubItem[]; // Optional sub-items
 }
