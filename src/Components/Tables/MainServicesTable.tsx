@@ -44,7 +44,20 @@ const headers = [
   "الاعجاب",
   "المشاركه",
 ];
-
+const ActionsList = [
+  {
+    content:'عرض',
+    action:"/Services/:ServiceName"
+  },
+  {
+    content:'تعديل',
+    action:"/Services/:ServiceName"
+  },
+  {
+    content:"حذف",
+    action:"/Services/:ServiceName"
+  },
+]
 export function MainServicesTable({ data }: MainServicesTableProps) {
   const [filteredData, setFilteredData] = useState<RowData[]>(data.data);
   return (
@@ -108,7 +121,7 @@ export function MainServicesTable({ data }: MainServicesTableProps) {
                 {row.service.shares_count}
               </TableCell>
               <TableCell className="text-right" style={{ width: "50px" }}>
-                <ActionBtn />
+                <ActionBtn ActionsList={ActionsList} itemName={row.service.name} />
               </TableCell>
             </TableRow>
           ))}

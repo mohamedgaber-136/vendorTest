@@ -51,8 +51,8 @@ const RouterStructure: React.FC = () => {
         >
           <Route index element={<MainServices />} />
           <Route path="/profileSetting" element={<ProfileSettings />} />
-          <Route path="/Support" element={<TechSupport />} />
           <Route path="/Supervisors" element={<SuperVisors />} />
+        <Route path="/Support" element={<TechSupport />} />
         </Route>
         <Route
           path="/Services/:ServiceName"
