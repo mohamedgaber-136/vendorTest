@@ -8,18 +8,18 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import App from "./App.tsx";
+import App from "./App";
 import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "./Redux/Store";
 import { Provider, useSelector } from "react-redux";
 import { RootState } from "./Redux/Store"; // Import your RootState type
-import { MainServices } from "./Pages/MainServices.tsx";
-import { ProfileSettings } from "./Pages/ProfileSettings.tsx";
-import { TechSupport } from "./Pages/TechSupport.tsx";
-import { SuperVisors } from "./Pages/SuperVisors.tsx";
-import { Login } from "./Pages/Login.tsx";
-import { ServiceLayout } from "./Components/RootLayout/ServiceLayout.tsx";
-import { Service } from "./Pages/Service.tsx";
+import { MainServices } from "./Pages/MainServices";
+import { ProfileSettings } from "./Pages/ProfileSettings";
+import { TechSupport } from "./Pages/TechSupport";
+import { SuperVisors } from "./Pages/SuperVisors";
+import { Login } from "./Pages/Login";
+import { ServiceLayout } from "./Components/RootLayout/ServiceLayout";
+import { Service } from "./Pages/Service";
 // Define the props for PrivateRoute component
 interface PrivateRouteProps {
   element: JSX.Element; // Expecting a JSX element

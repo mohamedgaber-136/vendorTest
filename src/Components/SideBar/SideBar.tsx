@@ -12,20 +12,20 @@ import {
 } from "../ui/sidebar";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { clearUser } from "../../Redux/authSlice";
 import { Item } from "../../types";
 import { Menu, Settings } from "lucide-react";
 
 interface SideBarProps {
   items: Item[];
+  name:string;
 }
 
-export function SideBar({ items }: SideBarProps) {
+export function SideBar({ items,name}: SideBarProps) {
   const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
   const [activeItem, setActiveItem] = useState<string>("/");
   const dispatch = useDispatch();
-  const { user } = useSelector((state: any) => state.auth);
 
   return (
     <SidebarProvider className="relative min-h-[500px] sideBarMob max-w-[255px] max-h-[50svh] overflow-hidden max-md:bg-transparent">
@@ -35,7 +35,7 @@ export function SideBar({ items }: SideBarProps) {
             <SidebarGroupLabel className="text-fontColor gap-2 flex flex-row-reverse justify-between">
               <div className="flex flex-col flex-1">
 
-              <p className="text-xl font-semibold"> {user?.name_ar} </p>
+              <p className="text-xl font-semibold"> {name} </p>
               <p className="text-primaryColor">الخدمه الرئيسيه</p>
               </div>
               <Avatar>

@@ -6,8 +6,9 @@ import { RootState } from "../Redux/Store";
 import { MainServicesTable } from "@/Components/Tables/MainServicesTable";
 import { ServiceForm } from "@/Components/Forms/ServiceForm";
 export const MainServices: React.FC = () => {
-  const { user } = useSelector((state: RootState) => state.auth);
+  const { user,accessToken } = useSelector((state: RootState) => state.auth);
   const vendorId = user ? user.id : null;
+  console.log(vendorId,accessToken);
   const { data: vendorServices, error: vendorError, isLoading: vendorLoading } = useGetVendorServicesQuery(vendorId ?? "", { skip: !vendorId });
   return (
     <div className="flex flex-wrap gap-2 px-5 justify-center items-center">

@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import { AdsCard } from "../AdsCard/AdsCard";
 import Navbar from "../Navbar/Navbar";
 import { SideBar } from "../SideBar/SideBar";
@@ -7,6 +7,7 @@ import { Item } from "../../types";
 
 // Define the type for the component
 export const ServiceLayout: React.FC = () => {
+  const { ServiceName } = useParams()
   // Menu items
   const items: Item[] = [
     {
@@ -23,21 +24,21 @@ export const ServiceLayout: React.FC = () => {
       title: " الصفحه الرئيسيه",
       collapse: true,
       subItems: [
-        { title: " الخدمه الاضافيه", url: "/additional-service",  }, // Add icon and collapse
-        { title: " العروض والباقات", url: "/offers-and-packages",  }, // Add icon and collapse
-        { title: " المنشورات", url: "/posts",  }, // Add icon and collapse
-        { title: " القصص", url: "/stories",  }, // Add icon and collapse
-        { title: " المنتجات", url: "/products",  }, // Add icon and collapse
-        { title: " الفروع", url: "/branches",  }, // Add icon and collapse
-        { title: " لينكات خارجيه", url: "/external-links",  }, // Add icon and collapse
+        { title: " الخدمه الاضافيه", url: "/additional-service", }, // Add icon and collapse
+        { title: " العروض والباقات", url: "/offers-and-packages", }, // Add icon and collapse
+        { title: " المنشورات", url: "/posts", }, // Add icon and collapse
+        { title: " القصص", url: "/stories", }, // Add icon and collapse
+        { title: " المنتجات", url: "/products", }, // Add icon and collapse
+        { title: " الفروع", url: "/branches", }, // Add icon and collapse
+        { title: " لينكات خارجيه", url: "/external-links", }, // Add icon and collapse
       ],
     },
     {
       title: "مدير الاعلانات",
       collapse: true,
       subItems: [
-        { title: "a- اعلاناتي", url: "/my-ads",  }, // Add icon and collapse
-        { title: "b- ترويج", url: "/promotion",  }, // Add icon and collapse
+        { title: "a- اعلاناتي", url: "/my-ads", }, // Add icon and collapse
+        { title: "b- ترويج", url: "/promotion", }, // Add icon and collapse
       ],
     },
     {
@@ -68,7 +69,7 @@ export const ServiceLayout: React.FC = () => {
       <div className="container mx-auto px-4">
         <AdsCard />
         <div className="flex">
-          <SideBar items={items} />
+          <SideBar items={items} name={ServiceName ? ServiceName : ''} />
           <div className="flex-grow overflow-y-auto md:h-[calc(100vh-200px)]"> {/* Adjust height as needed */}
             <Outlet />
           </div>
