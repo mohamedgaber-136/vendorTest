@@ -1,5 +1,4 @@
-import {  useState } from 'react';
-import { MoreVertical } from "lucide-react";
+import { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -10,6 +9,7 @@ import {
 } from "../ui/table";
 import { SwitchbBTN } from "../SwitchBtn/SwitchBtn";
 import { SearchField } from "../SearchField/SearchField";
+import { ActionBtn } from '../ActionBtn/ActionBtn';
 
 type Service = {
   name: string;
@@ -50,7 +50,7 @@ export function MainServicesTable({ data }: MainServicesTableProps) {
   return (
     <>
       <SearchField initialData={data.data} setData={setFilteredData} />
-      <Table className="bg-white mb-4 rounded-xl border-0">
+      <Table className="bg-white mt-4 rounded-xl border-0">
         <TableHeader className="rounded-3xl">
           <TableRow>
             <TableHead className="text-right text-fontColor px-3 font-semibold" style={{ width: "50px" }} />
@@ -83,9 +83,8 @@ export function MainServicesTable({ data }: MainServicesTableProps) {
               </TableCell>
               <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
                 <button
-                  className={`${
-                    row.is_active ? "bg-green-800" : "bg-red-800"
-                  } px-4 py-2 border border-gray-400 text-white rounded-lg`}
+                  className={`${row.is_active ? "bg-green-800" : "bg-red-800"
+                    } px-4 py-2 border border-gray-400 text-white rounded-lg`}
                 >
                   {row.is_active ? "نشط" : "معلق"}
                 </button>
@@ -109,7 +108,7 @@ export function MainServicesTable({ data }: MainServicesTableProps) {
                 {row.service.shares_count}
               </TableCell>
               <TableCell className="text-right" style={{ width: "50px" }}>
-                <MoreVertical className="w-5 h-5 text-gray-600 bg-transparent cursor-pointer" />
+                <ActionBtn />
               </TableCell>
             </TableRow>
           ))}

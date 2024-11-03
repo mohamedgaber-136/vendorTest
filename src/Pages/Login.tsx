@@ -35,8 +35,11 @@ export const Login: React.FC = () => {
   const handleLogin = async (values: LoginFormValues) => {
     try {
       const response = await login(values).unwrap();
-      // Check if the response structure includes the expected fields
-      if (response.status ===200) {
+
+      // Log the entire response for debugging
+      console.log("Login Response:", response);
+
+      if (response.status === 200 && response.data) {
         dispatch(setUser({
           accessToken: response.data.token,
           user: response.data,
@@ -51,16 +54,15 @@ export const Login: React.FC = () => {
     } catch (error) {
       setCheckLogin(false);
       console.error('Login failed:', error);
-  
-      // Check if the error is an AxiosError to access error data safely
+
+      // Detailed error handling with AxiosError check
       if (axios.isAxiosError(error)) {
-        console.error('Error details:', error.response?.data);
+        console.error('Error details from backend:', error.response?.data);
       } else {
         console.error('An unexpected error occurred.');
       }
     }
   };
-  
 
   return (
     <div className="bg-sky-100 flex justify-center items-center h-screen">

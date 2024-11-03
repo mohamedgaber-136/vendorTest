@@ -44,6 +44,7 @@ const RouterStructure: React.FC = () => {
     createRoutesFromElements(
       <Route>
         <Route path="/login" element={<Login />} />
+        
         <Route
           path="/"
           element={<PrivateRoute nav="/login"  element={<App />} />} // Add auth prop here

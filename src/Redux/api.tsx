@@ -1,4 +1,3 @@
-// src/Redux/api.ts
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from './Store';
 import { AddItemResponse, ItemType } from '../types';
@@ -14,29 +13,28 @@ export const api = createApi({
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
-      // No need to set Content-Type for FormData, but ensure JSON content-type is set when required
       return headers;
     },
   }),
+  tagTypes: ['VendorServices'], // Define tag types
   endpoints: (builder) => ({
     getItems: builder.query<ItemType, string>({
       query: (itemId) => `${itemId}`,
     }),
     addItem: builder.mutation<AddItemResponse, { endpoint: string; newItem: Partial<ItemType> }>({
-      query: ({ endpoint, newItem }) => {
-        return {
-          url: endpoint,
-          method: 'POST',
-          body: newItem, // Directly set newItem without stringifying
-          // The content type for JSON data will be handled by the fetchBaseQuery
-        };
-      },
+      query: ({ endpoint, newItem }) => ({
+        url: endpoint,
+        method: 'POST',
+        body: newItem,
+      }),
+      // Specify the tag to invalidate after adding an item
+      invalidatesTags: ['VendorServices'], // This tells RTK Query to refetch any queries tagged with 'VendorServices'
     }),
     getVendorServices: builder.query<any, string>({
       query: (vendorId) => `service-vendors?vendorId=${vendorId}`,
+      providesTags: ['VendorServices'], // This marks the query with the 'VendorServices' tag
     }),
     getCities: builder.query<any, string>({
-     
       query: (id) => `cities?governorateId=${id}`,
     }),
     login: builder.mutation<{ token: string; user: any; status: number; data: any }, { email: string; password: string }>({
@@ -49,4 +47,10 @@ export const api = createApi({
   }),
 });
 
-export const { useGetItemsQuery, useAddItemMutation, useGetVendorServicesQuery,useGetCitiesQuery , useLoginMutation } = api;
+export const {
+  useGetItemsQuery,
+  useAddItemMutation,
+  useGetVendorServicesQuery,
+  useGetCitiesQuery,
+  useLoginMutation,
+} = api;

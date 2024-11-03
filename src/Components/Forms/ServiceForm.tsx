@@ -31,22 +31,22 @@ export const ServiceForm = () => {
   const [addItem, { isLoading, isError, isSuccess }] = useAddItemMutation();
   const [cityId, setCityId] = useState<string | null>(null);
   const { data: Cities } = useGetCitiesQuery(cityId ?? "", { skip: !cityId });
-  const { data: item,   } = useGetItemsQuery("services");
+  const { data: item } = useGetItemsQuery("services");
   const { data: govers } = useGetItemsQuery("governorates");
 
   const serviceOptions = item ? item.data.map((service: ItemService) => ({ value: service.id, label: service.name })) : [];
   const goversOption = govers ? govers.data.map((governorate: Goverdata) => ({ value: governorate.id, label: governorate.name })) : [];
+
   const onSubmit = async (values: InitialValues, { setSubmitting }: FormikHelpers<InitialValues>) => {
-    // try {
-    //   const newItem = { ...values };
-    //   await addItem({ endpoint: "yourEndpoint", newItem }).unwrap();
-    //   console.log("Item added successfully");
-    // } catch (error) {
-    //   console.error("Failed to add item:", error);
-    // } finally {
-    //   setSubmitting(false);
-    // }
-    console.log(values)
+    try {
+      await addItem({ endpoint: "service-vendors", newItem: values }).unwrap();
+      console.log("Item added successfully");
+    } catch (error) {
+      console.error("Failed to add item:", error);
+    } finally {
+      setSubmitting(false);
+    }
+    console.log(values);
   };
 
   const initialValues: InitialValues = {
@@ -74,31 +74,34 @@ export const ServiceForm = () => {
     description: Yup.string().min(10, "يجب أن يحتوي الوصف على 10 أحرف على الأقل").required("وصف الخدمة مطلوب"),
     price: Yup.string().required(" السعر مطلوب"),
     vendor_type: Yup.string().oneOf(["2", "1"], "يرجى اختيار نوع المنشأ").required("نوع المنشأ مطلوب"),
+    images: Yup.array().min(4, "يجب أن تحتوي الصور على 4 صور على الأقل").required("الصور مطلوبة"),
+    cover: Yup.array().min(4, "يجب أن يحتوي الغلاف على 4 صور على الأقل").required("الغلاف مطلوب"),
   });
 
   return (
     <Formik
       initialValues={initialValues}
-      // validationSchema={validationSchema}
+      validationSchema={validationSchema}
       onSubmit={onSubmit}
     >
       {(formik) => (
         <Form className="flex flex-col gap-3">
           <TextField formik={formik} item={{ name: 'commercial_name', type: 'text', placeHolder: "الاسم التجاري" }} />
           <RadioField item={{ name: "vendor_type", options: [{ label: "فرد", value: "1" }, { label: "شركة", value: "2" }] }} />
-          <SelectField item={{ placeHolder: "نوع الخدمة", name: "service_id", options: serviceOptions }}   setCityId={null} />
-          <SelectField item={{ placeHolder: "المحافظة", name: "governorate_id", options: goversOption }}  setCityId={setCityId}/>
-          <SelectField item={{ placeHolder: "المدينة", name: "city_id", options: Cities?.data ?? [] }}  setCityId={null} />
+          <SelectField item={{ placeHolder: "نوع الخدمة", name: "service_id", options: serviceOptions }} setCityId={null} />
+          <SelectField item={{ placeHolder: "المحافظة", name: "governorate_id", options: goversOption }} setCityId={setCityId} />
+          <SelectField item={{ placeHolder: "المدينة", name: "city_id", options: Cities?.data ?? [] }} setCityId={null} />
           <TextField formik={formik} item={{ name: 'mobile', type: 'text', placeHolder: "الموبيل   " }} />
           <TextField formik={formik} item={{ name: 'whatsapp', type: 'text', placeHolder: "رقم واتس اب   " }} />
-          <TextField formik={formik} item={{ name: 'description', type: 'textarea', placeHolder: "وصف الخدمه " }} />
+          <TextField formik={formik} item={{ name: 'description', type: 'textarea', placeHolder: "وصف الخدمة " }} />
           <TextField formik={formik} item={{ name: 'price', type: 'text', placeHolder: "السعر   " }} />
-          <FileField formik={formik} item={{placeHolder: "اضافة صورة الخدمة", name: "image" }}/>
-          <FileField formik={formik} item={{placeHolder: "اضافة صورة الغلاف", name: "covers"  }}/>
+          <FileField formik={formik} item={{ placeHolder: "اضافة صورة الخدمة", name: "images" }} />
+          <FileField formik={formik} item={{ placeHolder: "اضافة صورة الغلاف", name: "cover" }} />
           <Button type="submit" className={`w-full sm:w-full bg-primaryColor text-white hover:white`}>
             اضافه خدمه
+            {isLoading && <div className="loader"></div>
+            }
           </Button>
-          {isLoading && <Loader />}
           {isSuccess && <div className="text-green-500">Item added successfully!</div>}
           {isError && <div className="text-red-500">Failed to add item</div>}
         </Form>

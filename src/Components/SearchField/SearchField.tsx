@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 
 interface SearchFieldProps {
   initialData: Array<{ [key: string]: any }>;
-  setData: React.Dispatch<React.SetStateAction<Array<{ [key: string]: any }>>>;
+  setData: any;
 }
 
 export const SearchField: React.FC<SearchFieldProps> = ({ setData, initialData }) => {
