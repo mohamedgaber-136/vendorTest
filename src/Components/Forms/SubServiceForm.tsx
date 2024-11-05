@@ -26,7 +26,7 @@ interface InitialValues {
   price_type: string;
 }
 
-export const ServiceForm = ({ data }) => {
+export const SubServiceForm = ({ data }) => {
   const [addItem, { isLoading, isError, isSuccess }] = useAddItemMutation();
   const [cityId, setCityId] = useState<string | null>(null);
   const { data: Cities } = useGetCitiesQuery(cityId ?? "", { skip: !cityId });
@@ -87,19 +87,14 @@ export const ServiceForm = ({ data }) => {
           <div className="loader"></div>
         </div> : <Form className="flex flex-col gap-3">
 
-          <TextField formik={formik} item={{ name: 'commercial_name', type: 'text', placeHolder: "الاسم التجاري" }} />
-          <RadioField formik={formik} item={{ name: "vendor_type", placeHolder:'هل أنت', options: [{ label: "فرد", value: "1" }, { label: "شركة", value: "2" }] }} />
           <SelectField item={{ placeHolder: "نوع الخدمة", name: "service_id", options: serviceOptions }} setCityId={null} />
           <SelectField item={{ placeHolder: "المحافظة", name: "governorate_id", options: goversOption }} setCityId={setCityId} />
           <SelectField item={{ placeHolder: "المدينة", name: "city_id", options: Cities?.data ?? [] }} setCityId={null} />
-          <TextField formik={formik} item={{ name: 'mobile', type: 'text', placeHolder: "الموبيل   " }} />
-          <TextField formik={formik} item={{ name: 'whatsapp', type: 'text', placeHolder: "رقم واتس اب   " }} />
-          <TextField formik={formik} item={{ name: 'description', type: 'textarea', placeHolder: "وصف الخدمة " }} />
+          <TextField formik={formik} item={{ name: 'description', type: 'textarea', placeHolder: "وصف العرض " }} />
           <TextField formik={formik} item={{ name: 'price', type: 'text', placeHolder: "السعر   " }} />
-          <FileField type='service_vendor_images' formik={formik} endpoint="files" item={{ placeHolder: "اضافة صورة الخدمة", name: "images" }} />
-          <FileField type='main_service_cover' formik={formik} endpoint="files" item={{ placeHolder: "اضافة صورة الغلاف", name: "cover" }} />
+          <FileField formik={formik} item={{ placeHolder: "اضافة صورة ", name: "images" }} />
           <Button type="submit" className={`w-full sm:w-full bg-primaryColor text-white hover:white`}>
-            اضافه خدمه
+             نشر
             {isLoading && <div className="loader"></div>
             }
           </Button>

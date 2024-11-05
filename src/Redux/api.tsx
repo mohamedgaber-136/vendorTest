@@ -16,7 +16,7 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ['VendorServices'], // Define tag types
+  tagTypes: ['VendorServices', "serviceOffers", "serviceProducts", "serviceAds", "servicePosts", "serviceBranches", 'serviceStories'], // Define tag types
   endpoints: (builder) => ({
     getItems: builder.query<ItemType, string>({
       query: (itemId) => `${itemId}`,
@@ -28,11 +28,45 @@ export const api = createApi({
         body: newItem,
       }),
       // Specify the tag to invalidate after adding an item
-      invalidatesTags: ['VendorServices'], // This tells RTK Query to refetch any queries tagged with 'VendorServices'
+      invalidatesTags: ['VendorServices', "serviceOffers", "serviceProducts", "serviceAds", "servicePosts", "serviceBranches", 'serviceStories'], // This tells RTK Query to refetch any queries tagged with 'VendorServices'
     }),
     getVendorServices: builder.query<any, string>({
-      query: (vendorId) => `service-vendors?vendorId=${vendorId}`,
+      query: (vendorId) => `service-vendors?vendorId=${vendorId}&embed=city,city.governorate,images`,
       providesTags: ['VendorServices'], // This marks the query with the 'VendorServices' tag
+    }),
+    getSingleService: builder.query<any, string>({
+      query: (serviceId) => `service-vendors/${serviceId}?embed=city,city.governorate,images`,
+      providesTags: ['VendorServices'], // This marks the query with the 'VendorServices' tag
+    }),
+    getServiceOffers: builder.query<any, string>({
+      query: (serviceId) => `offers?vendorMainServiceId=${serviceId}&embed=image,galleryImages`,
+      providesTags: ['serviceOffers'],
+      // This marks the query with the 'VendorServices' tag
+    }),
+    getServiceProducts: builder.query<any, string>({
+      query: (serviceId) => `products?embed=images,city.governorate,service&vendorMainServiceId=${serviceId}`,
+      providesTags: ['serviceProducts'],
+      // This marks the query with the 'VendorServices' tag
+    }),
+    getServiceAds: builder.query<any, string>({
+      query: (serviceId) => `ads?vendorMainServiceId=${serviceId}&embed=adPackage`,
+      providesTags: ['serviceAds'],
+      // This marks the query with the 'VendorServices' tag
+    }),
+    getServicePosts: builder.query<any, string>({
+      query: (serviceId) => `posts?vendorMainServiceId=${serviceId}&embed=views,likes,shares,images`,
+      providesTags: ['servicePosts'],
+      // This marks the query with the 'VendorServices' tag
+    }),
+    getServiceBranches: builder.query<any, string>({
+      query: (serviceId) => `https://testing.gawazy.com/api/v1/web/vendor-branchs?vendorMainServiceId=${serviceId}`,
+      providesTags: ['serviceBranches'],
+      // This marks the query with the 'VendorServices' tag
+    }),
+    getServiceStories: builder.query<any, string>({
+      query: (serviceId) => `stories?vendorMainServiceId=${serviceId}`,
+      providesTags: ['serviceStories'],
+      // This marks the query with the 'VendorServices' tag
     }),
     getCities: builder.query<any, string>({
       query: (id) => `cities?governorateId=${id}`,
@@ -51,6 +85,13 @@ export const {
   useGetItemsQuery,
   useAddItemMutation,
   useGetVendorServicesQuery,
+  useGetServiceOffersQuery,
+  useGetServiceAdsQuery,
+  useGetServiceProductsQuery,
+  useGetSingleServiceQuery,
+  useGetServicePostsQuery,
+  useGetServiceBranchesQuery,
+  useGetServiceStoriesQuery,
   useGetCitiesQuery,
   useLoginMutation,
 } = api;

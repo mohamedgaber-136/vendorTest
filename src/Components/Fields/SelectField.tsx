@@ -17,7 +17,9 @@ interface SelectFieldProps {
 
 export const SelectField: React.FC<SelectFieldProps> = ({ item, setCityId }) => {
   return (
-    <>
+    <div   className='flex flex-col w-full'>
+      <p className="text-fontColor mb-2 font-semibold">{item.placeHolder}
+      </p>
       <Field name={item.name}>
         {({ field, form }: FieldProps) => (
           <div className="relative">
@@ -47,6 +49,6 @@ export const SelectField: React.FC<SelectFieldProps> = ({ item, setCityId }) => 
         )}
       </Field>
       <ErrorMessage name={item.name} component="div" className="text-red-500 text-sm" />
-    </>
+    </div>
   );
 };

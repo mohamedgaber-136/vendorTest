@@ -7,7 +7,7 @@ import { Item } from "../../types"; // Ensure this path is correct
 import {  useSelector } from "react-redux";
 
 export const RootLayout: React.FC = () => {
-  const { user } = useSelector((state: any) => state.auth);
+  const { user ,accessToken} = useSelector((state: any) => state.auth);
   const items: Item[] = [
     {
       title: "الخدمات الرئيسيه",
@@ -30,7 +30,7 @@ export const RootLayout: React.FC = () => {
   return (
     <div>
       <Navbar />
-      <div className="container mx-auto px-4">
+      <div className=" mx-auto px-4">
         <AdsCard />
         <div className="flex">
           <SideBar items={items} name={user?.name_ar} />

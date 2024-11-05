@@ -28,7 +28,7 @@ export function SideBar({ items,name}: SideBarProps) {
   const dispatch = useDispatch();
 
   return (
-    <SidebarProvider className="relative min-h-[500px] sideBarMob max-w-[255px] max-h-[50svh] overflow-hidden max-md:bg-transparent">
+    <SidebarProvider className="relative min-h-[500px] sideBarMob max-w-[255px] max-h-[50svh] overflow-hidden  max-md:bg-transparent">
       <Sidebar className="h-full bottom-0 absolute right-0 bg-sidebar-default max-md:bg-transparent">
         <SidebarContent>
           <SidebarGroup className="gap-4">

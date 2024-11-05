@@ -58,7 +58,8 @@ const ActionsList = [
     action:"/Services/:ServiceName"
   },
 ]
-export function MainServicesTable({ data }: MainServicesTableProps) {
+export function SubServicesTable({ data }: MainServicesTableProps) {
+  console.log(data,'dataaa')
   const [filteredData, setFilteredData] = useState<RowData[]>(data.data);
   return (
     <>

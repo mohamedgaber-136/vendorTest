@@ -1,14 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { api } from './api';
 
 // Define types for User and AuthState
-export interface User { // Explicitly exporting User type
+export interface User {
   id: string;
   username: string;
 }
 
-export interface AuthState { // Explicitly exporting AuthState type
-  user: User | null; // The current authenticated user
-  accessToken: string | null; // Access token for authentication
+export interface AuthState {
+  user: User | null;
+  accessToken: string | null;
 }
 
 // Initial state with type
@@ -29,6 +30,15 @@ const authSlice = createSlice({
       state.user = null;
       state.accessToken = null;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      api.endpoints.login.matchFulfilled,
+      (state, { payload }) => {
+        state.accessToken = payload.token;
+        state.user = payload.user;
+      }
+    );
   },
 });
 

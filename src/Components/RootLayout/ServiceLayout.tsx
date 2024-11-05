@@ -3,42 +3,44 @@ import { AdsCard } from "../AdsCard/AdsCard";
 import Navbar from "../Navbar/Navbar";
 import { SideBar } from "../SideBar/SideBar";
 import { Item } from "../../types";
+import { useSelector } from "react-redux";
+import { RootState } from "@/Redux/Store";
 
 
 // Define the type for the component
 export const ServiceLayout: React.FC = () => {
   const { ServiceName } = useParams()
   // Menu items
+  const { data } = useSelector((state: RootState) => state.service);
+  const id = data ? data.id : null;
+
   const items: Item[] = [
     {
       title: " الاحصائيات",
-      url: "/Services",
+      url: "",
       collapse: false,
     },
     {
-      title: " الخدمه الرئيسيه",
-      url: "/main-service",
-      collapse: false,
-    },
-    {
-      title: " الصفحه الرئيسيه",
+      title: "  اعدادت ملف الخدمه",
       collapse: true,
       subItems: [
-        { title: " الخدمه الاضافيه", url: "/additional-service", }, // Add icon and collapse
-        { title: " العروض والباقات", url: "/offers-and-packages", }, // Add icon and collapse
-        { title: " المنشورات", url: "/posts", }, // Add icon and collapse
-        { title: " القصص", url: "/stories", }, // Add icon and collapse
-        { title: " المنتجات", url: "/products", }, // Add icon and collapse
-        { title: " الفروع", url: "/branches", }, // Add icon and collapse
-        { title: " لينكات خارجيه", url: "/external-links", }, // Add icon and collapse
+        { title: " الخدمه ", url: "EditService", }, // Add icon and collapse
+        { title: "  الخدمه الفرعيه  ", url: "SubServices", }, // Add icon and collapse
+        // Add icon and collapse
+        { title: "  العروض", url: "Offers", }, // Add icon and collapse
+        { title: " المنشورات ", url: "Posts", }, // Add icon and collapse
+        { title: "  المنتجات", url: "Products", }, // Add icon and collapse
+        { title: "  الفروع", url: "branches", }, // Add icon and collapse
+        { title: "  القصص", url: "story", }, // Add icon and collapse
       ],
     },
+
     {
-      title: "مدير الاعلانات",
+      title: " مدير الاعلانات",
       collapse: true,
       subItems: [
-        { title: "a- اعلاناتي", url: "/my-ads", }, // Add icon and collapse
-        { title: "b- ترويج", url: "/promotion", }, // Add icon and collapse
+        { title: "علاناتي", url: "ads", }, // Add icon and collapse
+        { title: "ترويج", url: "promotion", }, // Add icon and collapse
       ],
     },
     {
@@ -46,21 +48,13 @@ export const ServiceLayout: React.FC = () => {
       url: "/my-packages",
       collapse: false,
     },
-    {
-      title: " المفضله",
-      url: "/favorites",
-      collapse: false,
-    },
+
     {
       title: " اشعاراتي",
       url: "/notifications",
       collapse: false,
     },
-    {
-      title: " الدعم الفني",
-      url: "/support",
-      collapse: false,
-    },
+
   ];
 
   return (
@@ -71,7 +65,7 @@ export const ServiceLayout: React.FC = () => {
         <div className="flex">
           <SideBar items={items} name={ServiceName ? ServiceName : ''} />
           <div className="flex-grow overflow-y-auto md:h-[calc(100vh-200px)]"> {/* Adjust height as needed */}
-            <Outlet />
+            <Outlet context={id} />
           </div>
         </div>
       </div>

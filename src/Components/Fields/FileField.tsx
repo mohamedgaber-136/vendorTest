@@ -10,9 +10,11 @@ interface FileFieldProps {
         placeHolder?: string;
     };
     formik: any;
+    endpoint:string;
+    type:string;
 }
 
-export const FileField: React.FC<FileFieldProps> = ({ item, formik }) => {
+export const FileField: React.FC<FileFieldProps> = ({ item, formik ,endpoint,type}) => {
     const { accessToken } = useSelector((state: RootState) => state.auth);
     const [fileNames, setFileNames] = useState<string[]>([]); // Array for file names
     const [imagePreviews, setImagePreviews] = useState<string[]>([]); // Array for image previews
@@ -40,10 +42,10 @@ export const FileField: React.FC<FileFieldProps> = ({ item, formik }) => {
         try {
             // Upload the file to the server
             const formData = new FormData();
-            formData.append("type", "service_vendor_images");
+            formData.append("type", type);
             formData.append("file", file);
     
-            const response = await axios.post("https://testing.gawazy.com/api/v1/web/files", formData, {
+            const response = await axios.post(`https://testing.gawazy.com/api/v1/web/${endpoint}`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     "Authorization": `Bearer ${accessToken}`,
@@ -75,7 +77,8 @@ export const FileField: React.FC<FileFieldProps> = ({ item, formik }) => {
     const hasError = !!formik.errors[item.name] && formik.touched[item.name];
 
     return (
-        <div>
+        < div  className='flex flex-col w-full'>
+            <p className="text-fontColor mb-2 font-semibold">{item.placeHolder}</p>
             <Input
                 type="file"
                 id={item.name}
@@ -105,6 +108,7 @@ export const FileField: React.FC<FileFieldProps> = ({ item, formik }) => {
                             borderRadius: "5px",
                         }}
                     />
+                    <span className="hidden">{fileNames}</span>
                 </div>
             ))}
             </div>
