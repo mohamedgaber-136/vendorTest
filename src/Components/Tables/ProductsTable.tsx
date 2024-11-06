@@ -15,19 +15,19 @@ interface OfferData {
   id: string;
   is_active: boolean;
   price: number | null;
-  service: {
-    name: string;
-    type: string;
-    created_at: string;
-    view_count: number;
-    likes_count: number;
-    shares_count: number;
-  };
+  old_price?: number | null; // Added to match data
+  title: string; // Added title property
+  start_date?: string; // Optional dates
+  end_date?: string;
+  views_count: number;
+  likes_count: number;
+  shares_count: number;
 }
 
 interface Action {
   content: string;
   action: string;
+  type: 'navigate' | 'modal' | 'delete'; // fixed typo
 }
 
 interface OffersTableProps {
@@ -37,11 +37,10 @@ interface OffersTableProps {
 }
 
 const headers = [
-  "منتجات",
+  " منتجات",
   "الحاله",
-  "المحافظه",
   "نوع الخدمه",
-  "السعر",
+  "السعر ",
   "المشاهدات",
   "الاعجاب",
   "المشاركه",
@@ -50,26 +49,29 @@ const headers = [
 const ActionsList: Action[] = [
   {
     content: 'عرض',
+    type: 'navigate', // corrected typo
     action: "/Services/:ServiceName",
   },
   {
     content: 'تعديل',
+    type: "modal",
     action: '/Services/:ServiceName',
   },
   {
     content: "حذف",
-    action: "/Services/:ServiceName",
+    action: "products/id",
+    type: "delete",
   },
 ];
 
 export const ProductsTable: FC<OffersTableProps> = ({ data }) => {
   const [filteredData, setFilteredData] = useState<OfferData[] | undefined>(data?.data);
-
+console.log(filteredData,'filtered')
   return (
     <>
-      <h2 className='text-fontColor text-4xl mb-4 font-semibold'>منتجات</h2>
+      <h2 className='text-fontColor w-full text-4xl mb-4 font-semibold'>المنتجات</h2>
       <SearchField initialData={data?.data} setData={setFilteredData} />
-
+      
       <Table className="bg-white mt-4 rounded-xl border-0">
         <TableHeader className="rounded-3xl">
           <TableRow>
@@ -90,8 +92,8 @@ export const ProductsTable: FC<OffersTableProps> = ({ data }) => {
           </TableRow>
         </TableHeader>
       </Table>
-
-      <Table className="bg-white">
+  
+      {/* <Table className="bg-white">
         <TableBody>
           {filteredData && filteredData.length ? (
             filteredData.map((row, index) => (
@@ -100,7 +102,7 @@ export const ProductsTable: FC<OffersTableProps> = ({ data }) => {
                   <SwitchbBTN />
                 </TableCell>
                 <TableCell className="font-medium text-right py-5 gap-3" style={{ width: "150px" }}>
-                  {row.service.name}
+                  {row.name}
                 </TableCell>
                 <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
                   <button
@@ -110,25 +112,28 @@ export const ProductsTable: FC<OffersTableProps> = ({ data }) => {
                   </button>
                 </TableCell>
                 <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
-                  {row.price == null ? "غير معرف" : row.price}
+                  {row.old_price}
                 </TableCell>
                 <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
-                  {row.service.type}
+                  {row.price}
                 </TableCell>
                 <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
-                  {row.service.created_at}
+                  {row.start_date}
                 </TableCell>
                 <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
-                  {row.service.view_count}
+                  {row.end_date}
                 </TableCell>
                 <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
-                  {row.service.likes_count}
+                  {row.views_count}
                 </TableCell>
                 <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
-                  {row.service.shares_count}
+                  {row.likes_count}
+                </TableCell>
+                <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
+                  {row.shares_count}
                 </TableCell>
                 <TableCell className="text-right" style={{ width: "50px" }}>
-                  <ActionBtn ActionsList={ActionsList} itemName={row.service.name} data={row} />
+                  <ActionBtn ActionsList={ActionsList} itemName={row.title} data={row} />
                 </TableCell>
               </TableRow>
             ))
@@ -140,7 +145,7 @@ export const ProductsTable: FC<OffersTableProps> = ({ data }) => {
             </TableRow>
           )}
         </TableBody>
-      </Table>
+      </Table> */}
     </>
   );
 };

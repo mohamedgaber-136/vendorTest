@@ -28,10 +28,10 @@ interface InitialValues {
 
 export const ServiceForm = ({ data }) => {
   const [addItem, { isLoading, isError, isSuccess }] = useAddItemMutation();
-  const [cityId, setCityId] = useState<string | null>(null);
+  const [cityId, setCityId] = useState(1);
   const { data: Cities } = useGetCitiesQuery(cityId ?? "", { skip: !cityId });
-  const { data: item, isLoading: loading } = useGetItemsQuery("services");
-  const { data: govers } = useGetItemsQuery("governorates");
+  const { data: item, isLoading: loading } = useGetItemsQuery("services?limit=1000");
+  const { data: govers } = useGetItemsQuery("governorates?limit=1000");
 
   const serviceOptions = item ? item.data.map((service: ItemService) => ({ value: service.id, label: service.name })) : [];
   const goversOption = govers ? govers.data.map((governorate: Goverdata) => ({ value: governorate.id, label: governorate.name })) : [];
@@ -50,7 +50,7 @@ export const ServiceForm = ({ data }) => {
   const initialValues: InitialValues = {
     commercial_name: data?.commercial_name || "",
     service_id: data?.service_id || "",
-    governorate_id: data?.governorate_id || "",
+    governorate_id: data?.governorate_id || 1,
     city_id: data?.city_id || "",
     mobile: data?.mobile || "",
     whatsapp: data?.whatsapp || "",

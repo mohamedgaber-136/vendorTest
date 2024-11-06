@@ -15,19 +15,17 @@ interface OfferData {
   id: string;
   is_active: boolean;
   price: number | null;
-  service: {
-    name: string;
-    type: string;
-    created_at: string;
-    view_count: number;
-    likes_count: number;
-    shares_count: number;
-  };
+  post_content: string;
+  images: { url: string }[];
+  view_count: number;
+  like_count: number;
+  share_count: number;
 }
 
 interface Action {
   content: string;
   action: string;
+  type: string;
 }
 
 interface OffersTableProps {
@@ -36,11 +34,10 @@ interface OffersTableProps {
   };
 }
 
-const headers = [
+const headers: string[] = [
   "صوره",
   "محتوي",
   "الحاله",
-
   "المشاهدات",
   "الاعجاب",
   "المشاركه",
@@ -50,14 +47,17 @@ const ActionsList: Action[] = [
   {
     content: 'عرض',
     action: "/Services/:ServiceName",
+    type: 'navigate',
   },
   {
     content: 'تعديل',
+    type: "modal",
     action: '/Services/:ServiceName',
   },
   {
     content: "حذف",
-    action: "/Services/:ServiceName",
+    action: "posts/id",
+    type: "delete",
   },
 ];
 
@@ -98,8 +98,11 @@ export const PostsTable: FC<OffersTableProps> = ({ data }) => {
                 <TableCell className="font-medium text-right gap-3" style={{ width: "50px" }} dir="ltr">
                   <SwitchbBTN />
                 </TableCell>
+                <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
+                  <img className='rounded' src={row.images[0]?.url} alt="postImg" style={{ width: '80px', objectFit: "cover" }} />
+                </TableCell>
                 <TableCell className="font-medium text-right py-5 gap-3" style={{ width: "150px" }}>
-                  {row.service.name}
+                  {row.post_content}
                 </TableCell>
                 <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
                   <button
@@ -109,31 +112,22 @@ export const PostsTable: FC<OffersTableProps> = ({ data }) => {
                   </button>
                 </TableCell>
                 <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
-                  {row.price == null ? "غير معرف" : row.price}
+                  {row.view_count}
                 </TableCell>
                 <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
-                  {row.service.type}
+                  {row.like_count}
                 </TableCell>
                 <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
-                  {row.service.created_at}
-                </TableCell>
-                <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
-                  {row.service.view_count}
-                </TableCell>
-                <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
-                  {row.service.likes_count}
-                </TableCell>
-                <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
-                  {row.service.shares_count}
+                  {row.share_count}
                 </TableCell>
                 <TableCell className="text-right" style={{ width: "50px" }}>
-                  <ActionBtn ActionsList={ActionsList} itemName={row.service.name} data={row} />
+                  <ActionBtn ActionsList={ActionsList} itemName={row.post_content} data={row} />
                 </TableCell>
               </TableRow>
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={headers.length} className="text-center p-5">
+              <TableCell colSpan={headers.length + 1} className="text-center p-5">
                 No Data Yet
               </TableCell>
             </TableRow>

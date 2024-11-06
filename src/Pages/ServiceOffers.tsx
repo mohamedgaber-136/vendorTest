@@ -9,18 +9,17 @@ export const ServiceOffers: React.FC = () => {
   const { data: ServiceOffers, error: serviceError, isLoading: ServiceLoading } = useGetServiceOffersQuery(serviceId ?? "", {
     skip: !serviceId,
   });
-
   return (
     <>
-    <div className="flex flex-wrap gap-2 px-5 justify-center items-center">
-      <OffersTable data={ServiceOffers} />
-      {serviceError && <p>Error loading service offers.</p>}
-      {ServiceLoading && <p className="text-center">Loading...</p>}
-      <ModalBtn
-        text="اضافه عرض "
-        formData={<OffersForm data={null} />}
+      <div className="flex flex-wrap gap-2 px-5 justify-center items-center">
+
+        {serviceError && <p>Error loading service offers.</p>}
+        {ServiceLoading ? <p className="text-center">Loading...</p> : <OffersTable data={ServiceOffers} />}
+        <ModalBtn
+          text="اضافه عرض "
+          formData={<OffersForm data={null} />}
         />
-    </div>
-        </>
+      </div>
+    </>
   );
 };

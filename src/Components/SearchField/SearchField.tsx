@@ -16,7 +16,7 @@ export const SearchField: React.FC<SearchFieldProps> = ({ setData, initialData }
 
   useEffect(() => {
     const filteredRows = memoizedInitialData?.filter((row) =>
-      Object.values(row.service).some((value) =>
+      Object.values(row).some((value) =>
         value?.toString().toLowerCase().includes(searchQuery.toLowerCase())
       )
     );
