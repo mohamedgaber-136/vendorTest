@@ -20,7 +20,7 @@ export const PasswordForm = () => {
 
   const onSubmit = async (values: InitialValues, { setSubmitting }: FormikHelpers<InitialValues>) => {
     try {
-      await addItem({ endpoint: "service-vendors", newItem: values }).unwrap();
+      await addItem({ endpoint: "profile/update-password", newItem: values }).unwrap();
       console.log("Item added successfully");
     } catch (error) {
       console.error("Failed to add item:", error);

@@ -47,15 +47,19 @@ const headers = [
 const ActionsList = [
   {
     content:'عرض',
-    action:"/Services/:ServiceName"
+    action:"/Services/:ServiceName",
+    type:'navigat'
   },
   {
     content:'تعديل',
-    action:'/Services/:ServiceName'
+    action:'/Services/:ServiceName/EditService',
+    type:'navigat'
   },
   {
     content:"حذف",
-    action:"/Services/:ServiceName"
+    action:"/Services/:ServiceName",
+    type:'navigat'
+  
   },
 ]
 export function MainServicesTable({ data }: MainServicesTableProps) {

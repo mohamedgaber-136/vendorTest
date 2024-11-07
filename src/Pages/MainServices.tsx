@@ -16,7 +16,7 @@ export const MainServices: React.FC = () => {
       {vendorServices && <MainServicesTable data={vendorServices} />}
       <ModalBtn
         text="اضافه خدمه رئيسيه"
-        formData={<ServiceForm data={null} />}
+        formData={<ServiceForm data={null} type={'post'} />}
       />
     </div>
   );

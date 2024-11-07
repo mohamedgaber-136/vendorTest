@@ -3,6 +3,8 @@ import { Formik, Form, FormikHelpers } from "formik";
 import { useAddItemMutation } from "../../Redux/api";
 import { TextField } from "../Fields/TextField";
 import { Button } from "../ui/button";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/Redux/authSlice";
 
 // Define the structure of the `user` prop based on `ItemType`
 interface ItemType {
@@ -18,6 +20,7 @@ interface ProfileFormProps {
 
 export const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
     const [addItem, { isLoading, isError, isSuccess }] = useAddItemMutation();
+    const dispatch = useDispatch();
 
     const initialValues: Partial<ItemType> = {
         name_ar: user?.name_ar || '',
@@ -44,12 +47,14 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
         try {
             await addItem({ endpoint: "profile/update", newItem: values }).unwrap();
             console.log("Item added successfully");
+        dispatch(setUser({
+            user: values,
+          }));
         } catch (error) {
             console.error("Failed to add item:", error);
         } finally {
             setSubmitting(false);
         }
-        console.log(values);
     };
 
     return (

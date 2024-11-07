@@ -47,11 +47,7 @@ const headers = [
 ];
 
 const ActionsList: Action[] = [
-  {
-    content: 'عرض',
-    type: 'navigate', // corrected typo
-    action: "/Services/:ServiceName",
-  },
+ 
   {
     content: 'تعديل',
     type: "modal",

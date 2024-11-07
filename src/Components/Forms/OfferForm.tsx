@@ -45,15 +45,15 @@ export const OffersForm = ({ data }: { data: Partial<InitialValues> }) => {
     city_id: data?.city_id || "",
     title: data?.title || "",
     service_vendor_id: serviceData?.data?.id,
-    sub_service_id: null,
+    sub_service_id: data?.sub_service_id||'40',
     governorate_id: data?.governorate_id || "",
-    start_date: "2024-10-01",
-    end_date: "2024-10-10",
+    start_date:data?.start_date|| "2024-10-01",
+    end_date: data?.end_date||"2024-10-10",
     description: data?.description || "",
     image: data?.image || [],
     galleryImages: data?.galleryImages || [],
     price: data?.price || "",
-    old_price: "",
+    old_price: data?.old_price||'',
   };
 
   const validationSchema = Yup.object().shape({
@@ -112,7 +112,7 @@ export const OffersForm = ({ data }: { data: Partial<InitialValues> }) => {
             <FileField type="offer_image" formik={formik} endpoint="files" item={{ placeHolder: "اضافة صورة العرض", name: "image" }} />
             <FileField type="offer_gallery_images" formik={formik} endpoint="files" item={{ placeHolder: "ضافة صورة ", name: "galleryImages" }} />
             <Button type="submit" className="w-full sm:w-full bg-primaryColor text-white hover:white">
-              اضافه خدمه
+              اضافه عرض
               {isLoading && <div className="loader"></div>}
             </Button>
             {isSuccess && <div className="text-green-500">Item added successfully!</div>}

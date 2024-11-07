@@ -79,7 +79,7 @@ export const SubServiceForm = ({ data }) => {
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={validationSchema}
+      // validationSchema={validationSchema}
       onSubmit={onSubmit}
     >
       {(formik) => (

@@ -44,11 +44,7 @@ const headers: string[] = [
 ];
 
 const ActionsList: Action[] = [
-  {
-    content: 'عرض',
-    action: "/Services/:ServiceName",
-    type: 'navigate',
-  },
+ 
   {
     content: 'تعديل',
     type: "modal",

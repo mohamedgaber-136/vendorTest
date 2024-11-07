@@ -16,7 +16,7 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ['VendorServices', "serviceOffers", "serviceProducts", "serviceAds", "servicePosts", "serviceBranches", 'serviceStories'], // Define tag types
+  tagTypes: ['service-vendors', "serviceOffers", "serviceProducts", "serviceAds", "servicePosts", "serviceBranches", 'serviceStories'], // Define tag types
   endpoints: (builder) => ({
     getItems: builder.query<ItemType, string>({
       query: (itemId) => `${itemId}`,
@@ -28,7 +28,7 @@ export const api = createApi({
         body: newItem,
       }),
       // Specify the tag to invalidate after adding an item
-      invalidatesTags: ['VendorServices', "serviceOffers", "serviceProducts", "serviceAds", "servicePosts", "serviceBranches", 'serviceStories'], // This tells RTK Query to refetch any queries tagged with 'VendorServices'
+      invalidatesTags: ['service-vendors', "serviceOffers", "serviceProducts", "serviceAds", "servicePosts", "serviceBranches", 'serviceStories'], // This tells RTK Query to refetch any queries tagged with 'VendorServices'
     }),
     deleteItem: builder.mutation<AddItemResponse, { endpoint: string; newItem: Partial<ItemType> }>({
       query: ({ endpoint }) => ({
@@ -36,15 +36,15 @@ export const api = createApi({
         method: 'DELETE',
       }),
       // Specify the tag to invalidate after adding an item
-      invalidatesTags: ['VendorServices', "serviceOffers", "serviceProducts", "serviceAds", "servicePosts", "serviceBranches", 'serviceStories'], // This tells RTK Query to refetch any queries tagged with 'VendorServices'
+      invalidatesTags: ['service-vendors', "serviceOffers", "serviceProducts", "serviceAds", "servicePosts", "serviceBranches", 'serviceStories'], // This tells RTK Query to refetch any queries tagged with 'VendorServices'
     }),
     getVendorServices: builder.query<any, string>({
       query: (vendorId) => `service-vendors?vendorId=${vendorId}&embed=city,city.governorate,images&limit=1000`,
-      providesTags: ['VendorServices'], // This marks the query with the 'VendorServices' tag
+      providesTags: ['service-vendors'], // This marks the query with the 'VendorServices' tag
     }),
     getSingleService: builder.query<any, string>({
       query: (serviceId) => `service-vendors/${serviceId}?embed=city,city.governorate,images&limit=1000`,
-      providesTags: ['VendorServices'], // This marks the query with the 'VendorServices' tag
+      providesTags: ['service-vendors'], // This marks the query with the 'VendorServices' tag
     }),
     getServiceOffers: builder.query<any, string>({
       query: (serviceId) => `offers?vendorMainServiceId=${serviceId}&embed=image,galleryImages&limit=1000`,

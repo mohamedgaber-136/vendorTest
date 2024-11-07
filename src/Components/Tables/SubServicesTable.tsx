@@ -45,10 +45,8 @@ const headers = [
   "المشاركه",
 ];
 const ActionsList = [
-  {
-    content:'عرض',
-    action:"/Services/:ServiceName"
-  },
+
+  
   {
     content:'تعديل',
     action:'/Services/:ServiceName'

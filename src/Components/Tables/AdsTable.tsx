@@ -49,10 +49,7 @@ const headers = [
 ];
 
 const ActionsList: Action[] = [
-  {
-    content: 'عرض',
-    action: "/Services/:ServiceName",
-  },
+ 
   {
     content: 'تعديل',
     action: '/Services/:ServiceName',

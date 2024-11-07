@@ -7,42 +7,40 @@ import React from 'react';
 import { useDeleteItemMutation } from '@/Redux/api';
 
 interface Action {
-  action: string | ((itemName: string) => void);
+  action: string | ((data: { id: string }) => JSX.Element);
   content: React.ReactNode;
-  type: 'navigat' | 'modal' | 'delete'; // define expected types for `type`
+  type: 'navigat' | 'modal' | 'delete';
 }
 
 interface ActionBtnProps {
   ActionsList: Action[];
   itemName: string;
-  data: { id: string }; // Adjusted type to expect an object with an `id` property
+  data: { id: string };
 }
 
 export const ActionBtn: React.FC<ActionBtnProps> = ({ ActionsList, itemName, data }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [deleteItem, { isLoading, isError, isSuccess }] = useDeleteItemMutation();
+  const [deleteItem] = useDeleteItemMutation();
+console.log(data,'data')
   const handleMenuItemClick = async (type: Action['type'], action: Action['action']) => {
     switch (type) {
       case 'navigat':
         if (typeof action === 'string') {
-          const path = action.replace(":ServiceName", itemName); // Replace :ServiceName with actual item name for navigation
+          const path = action.replace(":ServiceName", itemName);
           dispatch(setData({ data }));
           navigate(path);
         }
         break;
-      case 'modal':
-        console.log('modal');
-        break;
       case 'delete':
         if (typeof action === 'string') {
-          const endpoint = action.replace("id", data.id); // Replace placeholder with actual id
+          const endpoint = action.replace("id", data.id);
           await deleteItem({ endpoint }).unwrap();
         }
         break;
       default:
         break;
-    } 
+    }
   };
 
   return (
@@ -52,13 +50,19 @@ export const ActionBtn: React.FC<ActionBtnProps> = ({ ActionsList, itemName, dat
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {ActionsList.map((item, index) => (
-          <DropdownMenuItem
-            key={index}
-            className="flex justify-center cursor-pointer"
-            onClick={() => handleMenuItemClick(item.type, item.action)}
-          >
-            {item.content}
-          </DropdownMenuItem>
+          item.type === 'modal' && typeof item.action === 'function' ? (
+            <React.Fragment key={index}>
+              {item.action(data)}
+            </React.Fragment>
+          ) : (
+            <DropdownMenuItem
+              key={index}
+              className="flex justify-center cursor-pointer"
+              onClick={() => handleMenuItemClick(item.type, item.action)}
+            >
+              {item.content}
+            </DropdownMenuItem>
+          )
         ))}
       </DropdownMenuContent>
     </DropdownMenu>

@@ -7,7 +7,7 @@ export const EditService = () => {
             <h2 className="text-fontColor text-4xl font-semibold mb-5">
                 بيانات الخدمه
             </h2>
-            <ServiceForm data={data} />
+            <ServiceForm data={data} type={'update'}  />
         </div>
     )
 }

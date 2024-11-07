@@ -10,6 +10,8 @@ import {
 import { SwitchbBTN } from "../SwitchBtn/SwitchBtn";
 import { SearchField } from "../SearchField/SearchField";
 import { ActionBtn } from '../ActionBtn/ActionBtn';
+import { OffersForm } from '../Forms/OfferForm';
+import { ModalBtn } from '../ModalBtn/ModalBtn';
 
 interface OfferData {
   id: string;
@@ -25,10 +27,11 @@ interface OfferData {
 }
 
 interface Action {
-  content: string;
-  action: string;
-  type: 'navigate' | 'modal' | 'delete'; // fixed typo
+  action: string | ((itemName: string) => void) | JSX.Element; // Allow JSX for modal
+  content: React.ReactNode;
+  type: 'navigat' | 'modal' | 'delete';
 }
+
 
 interface OffersTableProps {
   data?: {
@@ -49,15 +52,16 @@ const headers = [
 ];
 
 const ActionsList: Action[] = [
-  {
-    content: 'عرض',
-    type: 'navigate', // corrected typo
-    action: "/Services/:ServiceName",
-  },
+ 
   {
     content: 'تعديل',
     type: "modal",
-    action: '/Services/:ServiceName',
+    action: (data: { id: string }) => (
+      <ModalBtn
+        text="تعديل عرض"
+        formData={<OffersForm data={data} />}
+      />
+    ),
   },
   {
     content: "حذف",
@@ -73,7 +77,7 @@ export const OffersTable: FC<OffersTableProps> = ({ data }) => {
     <>
       <h2 className='text-fontColor w-full text-4xl mb-4 font-semibold'>العروض</h2>
       <SearchField initialData={data?.data} setData={setFilteredData} />
-      
+
       <Table className="bg-white mt-4 rounded-xl border-0">
         <TableHeader className="rounded-3xl">
           <TableRow>
@@ -94,7 +98,7 @@ export const OffersTable: FC<OffersTableProps> = ({ data }) => {
           </TableRow>
         </TableHeader>
       </Table>
-  
+
       <Table className="bg-white">
         <TableBody>
           {filteredData && filteredData.length ? (
