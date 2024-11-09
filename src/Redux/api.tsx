@@ -43,7 +43,7 @@ export const api = createApi({
       providesTags: ['service-vendors'], // This marks the query with the 'VendorServices' tag
     }),
     getSingleService: builder.query<any, string>({
-      query: (serviceId) => `sub_services/${serviceId}?embed=city,city.governorate,images&limit=1000`,
+      query: (serviceId) => `sub_services?parentId=${serviceId}?embed=city,city.governorate,images&limit=1000`,
       providesTags: ['service-vendors'], // This marks the query with the 'VendorServices' tag
     }),
     getServiceOffers: builder.query<any, string>({

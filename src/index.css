@@ -214,3 +214,7 @@ left: 0;
 right: 0;
 }
 
+svg{
+  mix-blend-mode: difference !important;
+  color: white !important;
+}

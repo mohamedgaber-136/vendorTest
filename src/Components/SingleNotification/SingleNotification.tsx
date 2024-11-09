@@ -22,7 +22,7 @@ export const SingleNotification: React.FC<SingleNotificationProps> = ({ avatarUr
             <div className="birthDate">{date}</div>
           </div>
         </div>
-        <MoreVertical />
+        <MoreVertical className="mixColor" color="white" />
       </div>
     </div>
   );
