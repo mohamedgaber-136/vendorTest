@@ -2,11 +2,10 @@ import { Link } from "react-router-dom";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "../ui/breadcrumb";
-import { Fragment } from "react/jsx-runtime";
+import { Fragment } from "react";
 
 export function BreadCrumb() {
   const BreadCrumbData = [
@@ -21,20 +20,21 @@ export function BreadCrumb() {
     "ازياء مناسبات",
     "المزيد",
   ];
+
   return (
-    <div className="bg-primaryColor text-background p-3 hidden md:flex ">
+    <div className="bg-primaryColor text-background p-3 hidden md:flex">
       <Breadcrumb>
         <BreadcrumbList>
           {BreadCrumbData.map((item, index) => (
             <Fragment key={`${index}-${item}`}>
               <BreadcrumbItem>
-                <BreadcrumbLink>
-                  <Link className="text-background font-semibold" to="/">
-                    {item}
-                  </Link>
-                </BreadcrumbLink>
+                <Link className="text-background font-semibold" to="/">
+                  {item}
+                </Link>
               </BreadcrumbItem>
-              <BreadcrumbSeparator className="text-background font-semibold" />
+              {index < BreadCrumbData.length - 1 && (
+                <BreadcrumbSeparator className="text-background font-semibold" />
+              )}
             </Fragment>
           ))}
         </BreadcrumbList>

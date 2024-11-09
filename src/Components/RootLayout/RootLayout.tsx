@@ -11,7 +11,7 @@ export const RootLayout: React.FC = () => {
   const items: Item[] = [
     {
       title: "الخدمات الرئيسيه",
-      url: "/", // Ensure all top-level items have a URL
+      url: "/home", // Ensure all top-level items have a URL
       
       collapse: false,
     },

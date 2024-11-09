@@ -30,6 +30,7 @@ import { ServiceStory } from "./Pages/ServiceStory";
 import { ServiceAds } from "./Pages/ServiceAds";
 import { ServicePromotion } from "./Pages/ServicePromotion";
 import { SubServices } from "./Pages/SubServices";
+import { ServiceNotifications } from "./Pages/ServiceNotifactions";
 
 interface PrivateRouteProps {
   element: JSX.Element;
@@ -57,6 +58,7 @@ const RouterStructure: React.FC = () => {
           element={<PrivateRoute nav="/login" element={<App />} />}
         >
           <Route index element={<MainServices />} />
+          <Route path="/home" element={<MainServices />} /> 
           <Route path="/profileSetting" element={<ProfileSettings />} />
           <Route path="/Supervisors" element={<SuperVisors />} />
           <Route path="/Support" element={<TechSupport />} />
@@ -75,6 +77,7 @@ const RouterStructure: React.FC = () => {
           <Route path="story" element={<ServiceStory />} />
           <Route path="ads" element={<ServiceAds />} />
           <Route path="promotion" element={<ServicePromotion/>} />
+          <Route path="notifications" element={<ServiceNotifications/>} />
         </Route>
       </Route>
     )

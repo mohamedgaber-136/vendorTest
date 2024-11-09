@@ -1,4 +1,5 @@
 import { BrancheForm } from '@/Components/Forms/BrancheForm';
+import { Loader } from '@/Components/Loader/Loader';
 import { ModalBtn } from '@/Components/ModalBtn/ModalBtn';
 import { BranchesTable } from '@/Components/Tables/BranchesTable';
 import { useGetServiceBranchesQuery } from '@/Redux/api';
@@ -12,17 +13,21 @@ export const ServiceBranches = () => {
   });
 
   return (
-    <div >
-      <BranchesTable data={ServiceOffers} />
+    <div  className="flex flex-wrap flex-col gap-2 px-5 justify-center items-center" >
+
+
+      {ServiceLoading && <Loader />}
       {serviceError && <p>Error loading service offers.</p>}
-      {ServiceLoading && <p className="text-center">Loading...</p>}
+      {
+        ServiceOffers && <BranchesTable data={ServiceOffers} />
+      }
       <div className="flex flex-wrap gap-2  my-5 px-5 justify-center items-center">
 
-      <ModalBtn
+        <ModalBtn
           text="اضافه فرع "
-          formData={<BrancheForm data={null} />}
-          />
-          </div>
+          formData={<BrancheForm data={null} type='post' />}
+        />
+      </div>
     </div>
   );
 }

@@ -37,7 +37,6 @@ export const Login: React.FC = () => {
       const response = await login(values).unwrap();
 
       // Log the entire response for debugging
-      console.log("Login Response:", response);
 
       if (response.status === 200 && response.data) {
         dispatch(setUser({
@@ -46,7 +45,6 @@ export const Login: React.FC = () => {
         }));
         navigate('/');
         setCheckLogin(true);
-        console.log('Login successful');
       } else {
         setCheckLogin(false);
         console.error('Unexpected response structure:', response);

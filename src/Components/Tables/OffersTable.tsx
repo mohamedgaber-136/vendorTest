@@ -11,15 +11,15 @@ import { SwitchbBTN } from "../SwitchBtn/SwitchBtn";
 import { SearchField } from "../SearchField/SearchField";
 import { ActionBtn } from '../ActionBtn/ActionBtn';
 import { OffersForm } from '../Forms/OfferForm';
-import { ModalBtn } from '../ModalBtn/ModalBtn';
+import { EditBtn } from '../EditBtn/EditBtn';
 
 interface OfferData {
   id: string;
   is_active: boolean;
   price: number | null;
-  old_price?: number | null; // Added to match data
-  title: string; // Added title property
-  start_date?: string; // Optional dates
+  old_price?: number | null;
+  title: string;
+  start_date?: string;
   end_date?: string;
   views_count: number;
   likes_count: number;
@@ -27,11 +27,10 @@ interface OfferData {
 }
 
 interface Action {
-  action: string | ((itemName: string) => void) | JSX.Element; // Allow JSX for modal
+  action: any;
   content: React.ReactNode;
   type: 'navigat' | 'modal' | 'delete';
 }
-
 
 interface OffersTableProps {
   data?: {
@@ -52,14 +51,13 @@ const headers = [
 ];
 
 const ActionsList: Action[] = [
- 
   {
     content: 'تعديل',
     type: "modal",
     action: (data: { id: string }) => (
-      <ModalBtn
+      <EditBtn
         text="تعديل عرض"
-        formData={<OffersForm data={data} />}
+        formData={<OffersForm data={data} type={'update'} />}
       />
     ),
   },
@@ -74,11 +72,11 @@ export const OffersTable: FC<OffersTableProps> = ({ data }) => {
   const [filteredData, setFilteredData] = useState<OfferData[] | undefined>(data?.data);
 
   return (
-    <>
+    <div className='w-full'>
       <h2 className='text-fontColor w-full text-4xl mb-4 font-semibold'>العروض</h2>
       <SearchField initialData={data?.data} setData={setFilteredData} />
-
-      <Table className="bg-white mt-4 rounded-xl border-0">
+      <div className="overflow-x-auto mt-4">
+      <Table className="bg-white rounded-xl">
         <TableHeader className="rounded-3xl">
           <TableRow>
             <TableHead className="text-right text-fontColor px-3 font-semibold" style={{ width: "50px" }} />
@@ -97,20 +95,17 @@ export const OffersTable: FC<OffersTableProps> = ({ data }) => {
             />
           </TableRow>
         </TableHeader>
-      </Table>
-
-      <Table className="bg-white">
         <TableBody>
           {filteredData && filteredData.length ? (
             filteredData.map((row, index) => (
               <TableRow key={`row-${index}`} className="even:bg-gray-100">
                 <TableCell className="font-medium text-right gap-3" style={{ width: "50px" }} dir="ltr">
-                  <SwitchbBTN />
+                <SwitchbBTN is_active={row.is_active} />
                 </TableCell>
-                <TableCell className="font-medium text-right py-5 gap-3" style={{ width: "150px" }}>
+                <TableCell className="font-medium text-right py-5 gap-3" style={{ width: "150px " }}>
                   {row.title}
                 </TableCell>
-                <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
+                <TableCell className="font-medium text-right py-5" style={{ width: "150px " }}>
                   <button
                     className={`${row.is_active ? "bg-green-800" : "bg-red-800"} px-4 py-2 border border-gray-400 text-white rounded-lg`}
                   >
@@ -151,7 +146,9 @@ export const OffersTable: FC<OffersTableProps> = ({ data }) => {
             </TableRow>
           )}
         </TableBody>
-      </Table>
-    </>
+        </Table>
+
+      </div>
+    </div>
   );
 };

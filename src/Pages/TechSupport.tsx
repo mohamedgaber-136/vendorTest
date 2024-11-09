@@ -21,7 +21,6 @@ export const TechSupport = () => {
   });
 
   const onSubmit = (values: typeof initialValues) => {
-    console.log("Form data", values);
   };
 
   return (

@@ -92,13 +92,11 @@ const FormikData: React.FC<FormikDataProps> = ({
     try {
       const newItem = { ...values };
       await addItem({ endpoint, newItem }).unwrap();
-      console.log("Item added successfully");
     } catch (error) {
       console.error("Failed to add item:", error);
     } finally {
       setSubmitting(false);
     }
-    console.log(values)
   };
 
   return (

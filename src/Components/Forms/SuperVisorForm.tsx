@@ -26,13 +26,11 @@ export const SuperVisorForm = () => {
   const onSubmit = async (values: InitialValues, { setSubmitting }: FormikHelpers<InitialValues>) => {
     try {
       await addItem({ endpoint: "service-vendors", newItem: values }).unwrap();
-      console.log("Item added successfully");
     } catch (error) {
       console.error("Failed to add item:", error);
     } finally {
       setSubmitting(false);
     }
-    console.log(values);
   };
 
   const initialValues: InitialValues = {

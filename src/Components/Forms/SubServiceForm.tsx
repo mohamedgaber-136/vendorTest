@@ -36,15 +36,13 @@ export const SubServiceForm = ({ data }) => {
   const serviceOptions = item ? item.data.map((service: ItemService) => ({ value: service.id, label: service.name })) : [];
   const goversOption = govers ? govers.data.map((governorate: Goverdata) => ({ value: governorate.id, label: governorate.name })) : [];
   const onSubmit = async (values: InitialValues, { setSubmitting }: FormikHelpers<InitialValues>) => {
-    // try {
-    //   await addItem({ endpoint: "service-vendors", newItem: values }).unwrap();
-    //   console.log("Item added successfully");
-    // } catch (error) {
-    //   console.error("Failed to add item:", error);
-    // } finally {
-    //   setSubmitting(false);
-    // }
-    console.log(values);
+    try {
+      await addItem({ endpoint: "service-vendors", newItem: values }).unwrap();
+    } catch (error) {
+      console.error("Failed to add item:", error);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const initialValues: InitialValues = {

@@ -6,6 +6,7 @@ export const SubServices = () => {
     const { data: Servic, error: serviceError, isLoading: ServiceLoading } = useGetSingleServiceQuery(serviceId ?? "", {
         skip: !serviceId,
     });
+    console.log(Servic,'Servic')
     return (
         <>
             <h2 className='text-fontColor text-4xl font-semibold'>خدمات فرعيه</h2>

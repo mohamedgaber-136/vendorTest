@@ -5,19 +5,29 @@ import { CalendarIcon } from "@radix-ui/react-icons";
 import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import { FormikProps } from "formik";
 
-export function DateField({ formik, name, title }) {
+interface DateFieldProps {
+  formik: FormikProps<any>;
+  name: string;
+  title: string;
+}
+
+export function DateField({ formik, name, title }: DateFieldProps) {
   const selectedDate = formik.values[name]; // Get the current date from Formik
 
-  const handleDateChange = (date) => {
-    formik.setFieldValue(name, date); // Update Formik's state with the selected date
+  const handleDateChange = (date: Date | undefined) => {
+    if (date) {
+      const newDate = date.toLocaleString();
+      formik.setFieldValue(name, newDate); // Update Formik's state with the selected date
+    }
   };
 
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          variant={"outline"}
+          variant="outline"
           className={cn(
             "w-full justify-start text-left font-normal bg-white",
             !selectedDate && "text-muted-foreground"

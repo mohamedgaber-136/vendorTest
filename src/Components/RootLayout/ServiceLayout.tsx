@@ -17,15 +17,20 @@ export const ServiceLayout: React.FC = () => {
   const items: Item[] = [
     {
       title: " الاحصائيات",
-      url: "",
+      url: "/home",
       collapse: false,
     },
     {
       title: "  اعدادت ملف الخدمه",
       collapse: true,
       subItems: [
-        { title: " الخدمه ", url: "EditService", }, // Add icon and collapse
-        { title: "  الخدمه الفرعيه  ", url: "SubServices", }, // Add icon and collapse
+        {
+          title: "ملف الخدمه", collapse: true, subItems: [
+            { title: " الخدمه ", url: "EditService", }, // Add icon and collapse
+            { title: "  الخدمه الفرعيه  ", url: "SubServices", }, // Add icon and collapse
+          ]
+        }
+        ,
         // Add icon and collapse
         { title: "  العروض", url: "Offers", }, // Add icon and collapse
         { title: " المنشورات ", url: "Posts", }, // Add icon and collapse
@@ -51,7 +56,7 @@ export const ServiceLayout: React.FC = () => {
 
     {
       title: " اشعاراتي",
-      url: "/notifications",
+      url: "notifications",
       collapse: false,
     },
 
@@ -60,7 +65,7 @@ export const ServiceLayout: React.FC = () => {
   return (
     <div>
       <Navbar />
-      <div className="container mx-auto px-4">
+      <div className="container-fluid mx-auto px-4">
         <AdsCard />
         <div className="flex">
           <SideBar items={items} name={ServiceName ? ServiceName : ''} />

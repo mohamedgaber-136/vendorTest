@@ -32,8 +32,10 @@ export type AddItemResponse = {
 
 export interface SubItem {
     title: string;
-    url: string; // Ensure URL is here as it's used in Sidebar
-}
+    url?: string; // Optional URL for nested sub-items
+    collapse?: boolean; // Optional collapse property for nested items
+    subItems?: SubItem[]; // Recursive sub-items for deeper nesting if needed
+  }
 
 export interface Item {
     title: string;

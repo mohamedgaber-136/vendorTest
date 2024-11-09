@@ -1,11 +1,11 @@
 import { useEffect, useState, useMemo } from 'react';
 
 interface SearchFieldProps {
-  initialData: any;
+  initialData: Array<{ [key: string]: any }>;
   setData: any;
 }
 
-export const SearchField: React.FC<SearchFieldProps> = ({ setData, initialData }) => {
+export const ServiceSearchField: React.FC<SearchFieldProps> = ({ setData, initialData }) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,7 +16,7 @@ export const SearchField: React.FC<SearchFieldProps> = ({ setData, initialData }
 
   useEffect(() => {
     const filteredRows = memoizedInitialData?.filter((row) =>
-      Object.values(row).some((value) =>
+      Object.values(row.service).some((value) =>
         value?.toString().toLowerCase().includes(searchQuery.toLowerCase())
       )
     );

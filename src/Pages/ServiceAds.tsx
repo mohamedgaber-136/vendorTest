@@ -1,3 +1,4 @@
+import { Loader } from "@/Components/Loader/Loader";
 import { AdsTable } from "@/Components/Tables/AdsTable";
 import { useGetServiceAdsQuery } from "@/Redux/api";
 import { useOutletContext } from "react-router-dom";
@@ -11,7 +12,7 @@ export const ServiceAds = () => {
     <div>
       <AdsTable data={ServiceOffers} />
       {serviceError && <p>Error loading service offers.</p>}
-      {ServiceLoading && <p className="text-center">Loading...</p>}
+      {ServiceLoading && <Loader />}
     </div>
   );
 }

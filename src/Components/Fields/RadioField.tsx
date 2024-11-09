@@ -18,8 +18,7 @@ interface RadioFieldProps {
 }
 
 export const RadioField: React.FC<RadioFieldProps> = ({ item,formik }) => {
-    console.log(formik.values[item.name],'values')
-    console.log(item.name,'type')
+
     return (
         < div  className='flex flex-col w-full   '>
             <p className='text-fontColor mb-2 font-semibold'>{item.placeHolder}</p>

@@ -10,6 +10,8 @@ import {
 import { SwitchbBTN } from "../SwitchBtn/SwitchBtn";
 import { SearchField } from "../SearchField/SearchField";
 import { ActionBtn } from '../ActionBtn/ActionBtn';
+import { EditBtn } from '../EditBtn/EditBtn';
+import { BrancheForm } from '../Forms/BrancheForm';
 
 interface OfferData {
   id: string;
@@ -26,113 +28,95 @@ interface OfferData {
 }
 
 interface Action {
-  content: string;
-  action: string;
+  action: any;
+  content: React.ReactNode;
+  type: 'navigat' | 'modal' | 'delete';
 }
 
-interface OffersTableProps {
+interface BranchesTableProps {
   data?: {
     data: OfferData[];
   };
 }
 
 const headers = [
-  " اسم الفرع",
-  "العنوان بالتفصيل ",
+  "اسم الفرع",
+  "العنوان بالتفصيل",
   "الحاله",
-  
 ];
 
 const ActionsList: Action[] = [
- 
   {
     content: 'تعديل',
-    action: '/Services/:ServiceName',
+    action:   (data: { id: string }) => (
+      <EditBtn
+        text="تعديل عرض"
+        formData={<BrancheForm data={data} type={'update'} />}
+      />
+    ),
+    type:'modal'
   },
   {
     content: "حذف",
-    action: "/Services/:ServiceName",
+    action: "vendor-branchs/id",
+    type: "delete",
   },
 ];
 
-export const BranchesTable: FC<OffersTableProps> = ({ data }) => {
+export const BranchesTable: FC<BranchesTableProps> = ({ data }) => {
   const [filteredData, setFilteredData] = useState<OfferData[] | undefined>(data?.data);
-
   return (
-    <div className='px-5 '>
-      <h2 className='text-fontColor text-4xl mb-4 font-semibold'>الفروع</h2>
+    <div className='w-full'>
+      <h2 className="text-fontColor text-4xl mb-4 font-semibold">الفروع</h2>
       <SearchField initialData={data?.data} setData={setFilteredData} />
-      <Table className="bg-white mt-4 rounded-xl border-0">
-        <TableHeader className="rounded-3xl">
-          <TableRow>
-            <TableHead className="text-right text-fontColor px-3 font-semibold" style={{ width: "50px" }} />
-            {headers.map((header, index) => (
+      <div className="overflow-x-auto mt-4">
+        <Table className=" rounded-xl shadow-lg">
+          <TableHeader className="rounded-xl  ">
+            <TableRow className='w-full'>
+              <TableHead className="text-right text-fontColor  px-4 py-3 font-semibold" style={{ width: "50px" }} />
+              {headers.map((header, index) => (
+                <TableHead
+                  key={index}
+                  className="text-center text-fontColor px-4 py-3 font-semibold"
+                  style={{ width: "850px" }}
+                >
+                  {header}
+                </TableHead>
+              ))}
               <TableHead
-                key={index}
-                className="text-right text-fontColor px-3 font-semibold"
-                style={{ width: "150px" }}
-              >
-                {header}
-              </TableHead>
-            ))}
-            <TableHead
-              className="text-right text-fontColor px-3 font-semibold"
-              style={{ width: "50px" }}
-            />
-          </TableRow>
-        </TableHeader>
-      </Table>
-
-      <Table className="bg-white">
-        <TableBody>
-          {filteredData && filteredData.length ? (
-            filteredData.map((row, index) => (
-              <TableRow key={`row-${index}`} className="even:bg-gray-100">
-                <TableCell className="font-medium text-right gap-3" style={{ width: "50px" }} dir="ltr">
-                  <SwitchbBTN />
-                </TableCell>
-                <TableCell className="font-medium text-right py-5 gap-3" style={{ width: "150px" }}>
-                  {row.service.name}
-                </TableCell>
-                <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
-                  <button
-                    className={`${row.is_active ? "bg-green-800" : "bg-red-800"} px-4 py-2 border border-gray-400 text-white rounded-lg`}
-                  >
-                    {row.is_active ? "نشط" : "معلق"}
-                  </button>
-                </TableCell>
-                <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
-                  {row.price == null ? "غير معرف" : row.price}
-                </TableCell>
-                <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
-                  {row.service.type}
-                </TableCell>
-                <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
-                  {row.service.created_at}
-                </TableCell>
-                <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
-                  {row.service.view_count}
-                </TableCell>
-                <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
-                  {row.service.likes_count}
-                </TableCell>
-                <TableCell className="font-medium text-right py-5" style={{ width: "150px" }}>
-                  {row.service.shares_count}
-                </TableCell>
-                <TableCell className="text-right" style={{ width: "50px" }}>
-                  <ActionBtn ActionsList={ActionsList} itemName={row.service.name} data={row} />
-                </TableCell>
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={headers.length} className="text-center p-5">
-                No Data Yet
-              </TableCell>
+                className="text-right text-fontColor px-4 py-3 font-semibold"
+                style={{ width: "50px " }}
+              />
             </TableRow>
-          )}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {
+              filteredData?.map((row, index) => (
+                <TableRow key={`row-${index}`} className="even:bg-gray-100 hover:bg-gray-50 bg-white">
+                  <TableCell className="font-medium text-right px-4 py-3">
+                    <SwitchbBTN is_active={row.is_active} />
+                  </TableCell>
+                  <TableCell className="font-medium text-right px-4 py-3">
+                    {row?.name}
+                  </TableCell>
+                  <TableCell className="font-medium text-right px-4 py-3">
+                    {row?.address}
+                  </TableCell>
+                 
+                  <TableCell className="font-medium text-right px-4 py-3">
+                    معلق
+                  </TableCell>
+               
+                  <TableCell className="text-right px-4 py-3">
+                    <ActionBtn ActionsList={ActionsList} itemName={row?.name} data={row} />
+                  </TableCell>
+                </TableRow>
+              ))
+            }
+
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 };

@@ -13,7 +13,7 @@ interface Action {
 }
 
 interface ActionBtnProps {
-  ActionsList: Action[];
+  ActionsList: any;
   itemName: string;
   data: { id: string };
 }
@@ -22,7 +22,6 @@ export const ActionBtn: React.FC<ActionBtnProps> = ({ ActionsList, itemName, dat
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [deleteItem] = useDeleteItemMutation();
-console.log(data,'data')
   const handleMenuItemClick = async (type: Action['type'], action: Action['action']) => {
     switch (type) {
       case 'navigat':
@@ -57,7 +56,7 @@ console.log(data,'data')
           ) : (
             <DropdownMenuItem
               key={index}
-              className="flex justify-center cursor-pointer"
+              className="flex justify-center cursor-pointer text-black font-semibold"
               onClick={() => handleMenuItemClick(item.type, item.action)}
             >
               {item.content}

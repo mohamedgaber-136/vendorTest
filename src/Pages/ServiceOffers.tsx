@@ -1,4 +1,5 @@
 import { OffersForm } from "@/Components/Forms/OfferForm";
+import { Loader } from "@/Components/Loader/Loader";
 import { ModalBtn } from "@/Components/ModalBtn/ModalBtn";
 import { OffersTable } from "@/Components/Tables/OffersTable";
 import { useGetServiceOffersQuery } from "@/Redux/api";
@@ -10,16 +11,16 @@ export const ServiceOffers: React.FC = () => {
     skip: !serviceId,
   });
   return (
-    <>
-      <div className="flex flex-wrap gap-2 px-5 justify-center items-center">
+    <div className="flex flex-wrap flex-col gap-2 px-5 justify-center items-center">
 
-        {serviceError && <p>Error loading service offers.</p>}
-        {ServiceLoading ? <p className="text-center">Loading...</p> : <OffersTable data={ServiceOffers} />}
-        <ModalBtn
-          text="اضافه عرض "
-          formData={<OffersForm data={null} />}
+      {serviceError && <p>Error loading service offers.</p>}
+      {ServiceLoading && <Loader />}
+      {ServiceOffers && <OffersTable data={ServiceOffers} />}
+      <ModalBtn
+        text="اضافه عرض "
+        formData={<OffersForm data={null} type={'post'} />}
         />
-      </div>
-    </>
+    </div>
+
   );
 };
