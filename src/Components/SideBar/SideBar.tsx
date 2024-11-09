@@ -93,7 +93,7 @@ export function SideBar({ items, name }: SideBarProps) {
                                     to={subSubItem.url || "/"}
                                     className="flex items-center space-x-2 font-semibold"
                                   >
-                                    <span className="text-fontColor">{subSubItem.title}</span>
+                                    <small className="text-fontColor">{subSubItem.title}</small>
                                   </Link>
                                 </SidebarMenuItem>
                               ))}

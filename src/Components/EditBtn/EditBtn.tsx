@@ -1,6 +1,8 @@
+import { X } from "lucide-react";
 import { Button } from "../ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -24,10 +26,15 @@ export const EditBtn: React.FC<ModalBtnProps> = ({
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-background max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
+        <DialogHeader className="flex  flex-row justify-between items-start">
           <DialogTitle className="text-start p-4 text-fontColor ">
             {text}
           </DialogTitle>
+          <DialogClose asChild>
+            <button aria-label="Close" className="p-2">
+              <X className="w-6 h-6 text-fontColor" />
+            </button>
+          </DialogClose>
         </DialogHeader>
      {formData}
       </DialogContent>

@@ -4,9 +4,12 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
+  DialogClose,
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
+import { X } from "lucide-react";
+
 // Define the Props type for ModalBtn component
 interface ModalBtnProps {
   text: string;
@@ -26,11 +29,17 @@ export const ModalBtn: React.FC<ModalBtnProps> = ({
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-background max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-start p-4 text-fontColor">
+      <DialogHeader className="flex  flex-row justify-between items-start">
+          <DialogTitle className="text-start p-4 text-fontColor ">
             {text}
           </DialogTitle>
+          <DialogClose asChild>
+            <button aria-label="Close" className="p-2">
+              <X className="w-6 h-6 text-fontColor" />
+            </button>
+          </DialogClose>
         </DialogHeader>
+    
      {formData}
       </DialogContent>
     </Dialog>

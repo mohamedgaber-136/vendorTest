@@ -74,6 +74,7 @@
     --sidebar-ring: 217.2 91.2% 59.8%
   }
 }
+
 @layer base {
   :root {
     --chart-1: 12 76% 61%;
@@ -82,7 +83,7 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
   }
- 
+
   .dark {
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
@@ -91,6 +92,7 @@
     --chart-5: 340 75% 55%;
   }
 }
+
 @layer base {
   * {
     @apply border-border;
@@ -100,41 +102,54 @@
     @apply bg-background text-foreground;
   }
 }
-*{
+
+* {
   font-family: "Noto Kufi Arabic", sans-serif;
   font-optical-sizing: auto;
 }
+
 @media(max-width:767px) {
 
   .sideBarMob {
     max-width: 30px !important;
   }
 }
+
 /* Webkit browsers */
 ::-webkit-scrollbar {
-  width: 5px; /* Width of the scrollbar */
-  height: 5px; /* Height of the scrollbar for horizontal scrollbar */
+  width: 5px;
+  /* Width of the scrollbar */
+  height: 5px;
+  /* Height of the scrollbar for horizontal scrollbar */
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Background of the scrollbar track */
-  border-radius: 10px; /* Rounded corners */
+  background: #f1f1f1;
+  /* Background of the scrollbar track */
+  border-radius: 10px;
+  /* Rounded corners */
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #F27B7D; /* Color of the scrollbar thumb */
-  border-radius: 10px; /* Rounded corners */
+  background: #F27B7D;
+  /* Color of the scrollbar thumb */
+  border-radius: 10px;
+  /* Rounded corners */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Color of the scrollbar thumb on hover */
+  background: #555;
+  /* Color of the scrollbar thumb on hover */
 }
 
 /* Firefox */
 .scrollable {
-  scrollbar-width: thin; /* Sets the width of the scrollbar */
-  scrollbar-color: #888 #f1f1f1; /* thumb color and track color */
+  scrollbar-width: thin;
+  /* Sets the width of the scrollbar */
+  scrollbar-color: #888 #f1f1f1;
+  /* thumb color and track color */
 }
+
 /* Loader  */
 .loader {
   border: 4px solid #F27B7D;
@@ -166,55 +181,63 @@
     transform: rotate(360deg);
   }
 }
-.loaderParent{
+
+.loaderParent {
   width: 100%;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.StoryParent{
+
+.StoryParent {
   width: 250px;
   height: 350px;
   border-radius: 10px;
   overflow: hidden;
-transition: 0.2s;
-position: relative;
+  transition: 0.2s;
+  position: relative;
 }
-.storyAcition{
+
+.storyAcition {
   position: absolute;
   left: 5px;
   top: 5px;
   cursor: pointer;
-  z-index: 99;
+  z-index: 9;
 }
-img{
+
+img {
   transition: 0.2s;
 
 }
-.StoryParent img{
+
+.StoryParent img {
   height: 350px !important;
   max-height: 350px !important;
   object-fit: cover !important;
   width: 100% !important;
 }
-.StoryParent:hover img{
-  /* transform: scale(1.2); */
+
+.StoryParent:hover img {
+  transform: scale(1.2);
 }
-table{
+
+table {
   position: relative !important;
-  margin-top:50px !important;
+  margin-top: 50px !important;
 }
-thead{
+
+thead {
   position: absolute !important;
   background-color: white !important;
   top: -50px !important;
   z-index: 9 !important;
-left: 0;
-right: 0;
+  left: 0;
+  right: 0;
 }
 
-svg{
+svg {
   mix-blend-mode: difference !important;
   color: white !important;
 }
