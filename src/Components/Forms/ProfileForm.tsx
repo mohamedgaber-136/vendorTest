@@ -79,7 +79,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
                         تعديل
                         {isLoading && <div className="loader"></div>}
                     </Button>
-                    {isSuccess && <div className="text-green-500">Item added successfully!</div>}
+                    {isSuccess && <div className="text-green-500">تم تعديل البيانات بنجاح</div>}
                     {isError && <div className="text-red-500">Failed to add item</div>}
                 </Form>
             )}

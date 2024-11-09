@@ -65,7 +65,7 @@ export const PasswordForm = () => {
             {isLoading && <div className="loader"></div>
             }
           </Button>
-          {isSuccess && <div className="text-green-500">Item added successfully!</div>}
+          {isSuccess && <div className="text-green-500">  تم تعديل كلمه المرور بنجاح</div>}
           {isError && <div className="text-red-500">Failed to add item</div>}
         </Form>
       )}
